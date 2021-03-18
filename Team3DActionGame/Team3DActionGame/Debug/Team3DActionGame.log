@@ -1,16 +1,2 @@
-﻿  particle.cpp
-  mode_game.cpp
-  manager.cpp
-c:\users\gsp015\desktop\新しいフォルダー (5)\new3dactionteamgame\team3dactiongame\team3dactiongame\dia.h(20): warning C4005: 'COLLISION_SIZE': マクロが再定義されました。
-  c:\users\gsp015\desktop\新しいフォルダー (5)\new3dactionteamgame\team3dactiongame\team3dactiongame\wood.h(20): note: 'COLLISION_SIZE' の以前の定義を確認してください
-  dia_particle.cpp
-  bg_tutorial.cpp
-  コードを生成中...
-  コンパイル中...
-  dust_particle.cpp
-  circle_particle.cpp
-  コードを生成中...
-  スキップ中... (関連する変更は検出されませんでした)
-  byte_effect.cpp
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (5)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (5)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
+﻿  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
+  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
