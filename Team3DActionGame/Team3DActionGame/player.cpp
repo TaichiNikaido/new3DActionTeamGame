@@ -298,6 +298,8 @@ void CPlayer::Input(void)
 //=============================================================================
 void CPlayer::Move(void)
 {
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
 	//もし死亡状態じゃないとき
@@ -320,6 +322,12 @@ void CPlayer::Move(void)
 			//もしジャンプ状態じゃない場合
 			if (m_bJump == false)
 			{
+				//もしサウンドのポインタがNULLじゃない場合
+				if (pSound != NULL)
+				{
+					//タイトルBGMの再生
+					pSound->PlaySoundA(CSound::SOUND_LABEL_SE_PLAYER_JUMP);
+				}
 				//移動量を設定する
 				m_Move.y = m_fJumpPower;
 				//ジャンプ状態にする

@@ -22,7 +22,7 @@
 // マクロ定義
 //*****************************************************************************
 #define SCRIPT_PASS ("Data/Script/Camera/Data.txt")				//プレイヤーデータのスクリプトのパス
-#define INITIAL_POSITION_V (D3DXVECTOR3(-100.0f, 0.0f, 0.0f))	//視点の初期値
+#define INITIAL_POSITION_V (D3DXVECTOR3(-10.0f, 0.0f, 0.0f))	//視点の初期値
 #define INITIAL_POSITION_R (D3DXVECTOR3(0.0f,0.0f,0.0f))		//注視点の初期値
 #define INITIAL_VECTOR_U (D3DXVECTOR3(0.0f,0.0f,0.0f))			//上方向ベクトル
 #define INITIAL_ROTAION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))		//回転の初期値
@@ -69,12 +69,9 @@ HRESULT CCamera::Init(void)
 		m_fPlayerDistance = 500.0f;
 		//上方向ベクトルを指定する
 		m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		//注視点を設定
+		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y + 50.0f, PlayerPosition.z + m_fPlayerDistance);
 		m_PositionR = PlayerPosition;
 	}
-	m_PositionV = D3DXVECTOR3(TILE_SIZE * 5.0f, 500.0f, 0.0f);
-	m_PositionR = D3DXVECTOR3(TILE_SIZE * 5.0f, 0.0f, TILE_SIZE * 2.0f);
-	m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	return S_OK;
 }
 
@@ -95,20 +92,12 @@ void CCamera::Update(void)
 	//もしプレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
-		//プレイヤーの位置を取得
+		//プレイヤーの位置を設定
 		D3DXVECTOR3 PlayerPosition = pPlayer->GetPos();
-		//カメラの位置を設定する
-		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z + m_fPlayerDistance);
-		//注視点を設定する
+		//上方向ベクトルを指定する
+		m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y + 50.0f, PlayerPosition.z + m_fPlayerDistance);
 		m_PositionR = PlayerPosition;
-		CKeyboard *pInput = CManager::GetKeyboard();
-
-		// 前へ移動
-		if (pInput->GetKeyboardPress(DIK_UP))
-		{
-			m_PositionR.z += 10.0f;
-			m_PositionV.z += 10.0f;
-		}
 	}
 }
 
