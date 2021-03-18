@@ -16,6 +16,7 @@
 //******************************************************************************
 #define TEX_1	("data/texture/effect/particle001.png")
 #define TEX_2	("data/texture/effect/particle002.png")
+#define TEX_3	("data/texture/effect/particle003.png")
 #define MIN_UV	(0.0f)	// UV最小値
 #define MAX_UV	(1.0f)	// UV最大値
 //******************************************************************************
@@ -45,6 +46,7 @@ HRESULT CParticle::Load(void)
 	// テクスチャ読み込み
 	D3DXCreateTextureFromFile(pDevice, TEX_1, &m_apTexture[TEX_TYPE_1]);
 	D3DXCreateTextureFromFile(pDevice, TEX_2, &m_apTexture[TEX_TYPE_2]);
+	D3DXCreateTextureFromFile(pDevice, TEX_3, &m_apTexture[TEX_TYPE_3]);
 	return S_OK;
 }
 

@@ -164,6 +164,7 @@
     <ClCompile Include="continue_logo.cpp" />
     <ClCompile Include="daiya.cpp" />
     <ClCompile Include="dia.cpp" />
+    <ClCompile Include="dia_particle.cpp" />
     <ClCompile Include="dust_particle.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="enemy.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="continue_logo.h" />
     <ClInclude Include="daiya.h" />
     <ClInclude Include="dia.h" />
+    <ClInclude Include="dia_particle.h" />
     <ClInclude Include="dust_particle.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="enemy.h" />

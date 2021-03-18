@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// タイトル背景 [bg_title.cpp]
+// チュートリアル背景 [bg_tutorial.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -15,25 +15,27 @@
 #include "mode_game.h"
 #include "renderer.h"
 #include "scene2d.h"
+#include "joystick.h"
 #include "bg_tutorial.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/TutorialBG.jpg")										//テクスチャ
-#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))							//サイズ
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))				//位置
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))										//色
-#define FLAME (0)																	//フレーム
+#define TEXTURE_KEYBOARD	("Data/Texture/TutorialBG0.png")						// テクスチャ
+#define TEXTURE_CONTROLLER	("Data/Texture/TutorialBG1.png")						// テクスチャ1
+#define SIZE				(D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))			// サイズ
+#define POSITION			(D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))	// 位置
+#define COLOR				(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))						// 色
+#define FLAME				(0)														// フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CTutorialBG::m_pTexture = NULL;	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CTutorialBG::m_pTexture[TEX_TYPE_MAX] = {};						//テクスチャへのポインタ
 
-//=============================================================================
-// コンストラクタ
-//=============================================================================
+																					//=============================================================================
+																					// コンストラクタ
+																					//=============================================================================
 CTutorialBG::CTutorialBG()
 {
 }
@@ -55,9 +57,13 @@ HRESULT CTutorialBG::TextureLoad(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE,						// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,						// デバイスへのポインタ
+		TEXTURE_KEYBOARD,									// ファイルの名前
+		&m_pTexture[TEX_TYPE_KEYBOARD]);					// 読み込むメモリー
+															// テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,						// デバイスへのポインタ
+		TEXTURE_CONTROLLER,									// ファイルの名前
+		&m_pTexture[TEX_TYPE_CONTROLLER]);					// 読み込むメモリー
 	return S_OK;
 }
 
@@ -66,13 +72,16 @@ HRESULT CTutorialBG::TextureLoad(void)
 //=============================================================================
 void CTutorialBG::TextureUnload(void)
 {
-	//もしテクスチャがNULLじゃない場合
-	if (m_pTexture != NULL)
+	for (int nCnt = INIT_INT; nCnt < TEX_TYPE_MAX; nCnt++)
 	{
-		//テクスチャの破棄処理関数呼び出し
-		m_pTexture->Release();
-		//テクスチャをNULLにする
-		m_pTexture = NULL;
+		//もしテクスチャがNULLじゃない場合
+		if (m_pTexture[nCnt] != NULL)
+		{
+			//テクスチャの破棄処理関数呼び出し
+			m_pTexture[nCnt]->Release();
+			//テクスチャをNULLにする
+			m_pTexture[nCnt] = NULL;
+		}
 	}
 }
 
@@ -116,12 +125,40 @@ HRESULT CTutorialBG::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
+
 	//シーン2Dの初期化処理関数呼び出し
 	CScene2d::Init();
+
 	//テクスチャの設定
 	SetTexture(aTexture);
-	//テクスチャの割り当て
-	BindTexture(m_pTexture);
+
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+
+	DIJOYSTATE js;
+
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	// NULLでない場合
+	if (lpDIDevice != NULL)
+	{
+		//テクスチャの割り当て
+		BindTexture(m_pTexture[TEX_TYPE_CONTROLLER]);
+	}
+	// NULLの場合
+	if (lpDIDevice == NULL)
+	{
+		//テクスチャの割り当て
+		BindTexture(m_pTexture[TEX_TYPE_KEYBOARD]);
+	}
 	return S_OK;
 }
 

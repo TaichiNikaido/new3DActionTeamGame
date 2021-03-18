@@ -20,6 +20,7 @@ public:
 		TEX_TYPE_NONE = -1,
 		TEX_TYPE_1,
 		TEX_TYPE_2,
+		TEX_TYPE_3,
 		TEX_TYPE_MAX,
 	}TEX_TYPE;
 

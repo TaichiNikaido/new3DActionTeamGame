@@ -30,6 +30,13 @@
 class CTutorialBG :public CScene2d
 {
 public:
+	typedef enum
+	{
+		TEX_TYPE_NONE = -1,
+		TEX_TYPE_KEYBOARD,
+		TEX_TYPE_CONTROLLER,
+		TEX_TYPE_MAX
+	}TEX_TYPE;
 	CTutorialBG();
 	~CTutorialBG();
 	static HRESULT TextureLoad(void);
@@ -40,6 +47,6 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	static LPDIRECT3DTEXTURE9 m_pTexture[TEX_TYPE_MAX];	//テクスチャへのポインタ
 };
 #endif
