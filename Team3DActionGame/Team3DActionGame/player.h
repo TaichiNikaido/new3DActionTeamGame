@@ -17,6 +17,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define COLLISION_SIZE_PLAYER D3DXVECTOR3(180.0f, 180.0f, 180.0f)
 
 //*****************************************************************************
 // 前方宣言
@@ -85,6 +86,7 @@ public:
 	int GetDiamond(void) { return m_nDiamond; }
 	bool GetbHit(void) { return m_bHit; }
 	STATE GetState(void) { return m_State; }
+	bool GetIsJump(void) { return m_bJump; }
 private:
 	void Input(void);
 	void Move(void);

@@ -11,6 +11,8 @@
 #include "wood.h"
 #include "manager.h"
 #include "renderer.h"
+#include "player.h"
+#include "mode_game.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -66,6 +68,21 @@ void CWood::Uninit(void)
 //=============================================================================
 void CWood::Update(void)
 {
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 rot = GetRot();
+	bool bJump = pPlayer->GetIsJump();
+
+	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= pos.x - COLLISION_SIZE_WOOD.x / 2 &&
+		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= pos.x + COLLISION_SIZE_WOOD.x / 2 &&
+		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= pos.z - COLLISION_SIZE_WOOD.z / 2 &&
+		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= pos.z + COLLISION_SIZE_WOOD.z / 2 &&
+		!bJump)
+	{
+		// プレイヤーを止める
+	}
+
 	CModelHimiya::Update();
 }
 
