@@ -18,6 +18,7 @@
 //=============================================================================
 CModel::CModel()
 {
+	m_pTexture = NULL;
 	m_pBuffMat = NULL;
 	m_pMesh = NULL;
 	m_nNumMat = 0;
@@ -93,6 +94,7 @@ void CModel::Draw(CModel *model)
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 	pDevice->GetMaterial(&matDef);
+	pDevice->SetTexture(0, m_pTexture);
 
 	ZeroMemory(&matDef, sizeof(D3DMATERIAL9));
 
@@ -104,6 +106,8 @@ void CModel::Draw(CModel *model)
 
 		m_pMesh->DrawSubset(nCntMat);
 	}
+
+	pDevice->SetTexture(0, NULL);
 
 	pDevice->SetMaterial(&matDef);
 }
@@ -145,6 +149,7 @@ void CModel::Draw(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 	pDevice->GetMaterial(&matDef);
+	pDevice->SetTexture(0, m_pTexture);
 
 	ZeroMemory(&matDef, sizeof(D3DMATERIAL9));
 
@@ -157,6 +162,7 @@ void CModel::Draw(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		m_pMesh->DrawSubset(nCntMat);
 	}
 
+	pDevice->SetTexture(0, NULL);
 	pDevice->SetMaterial(&matDef);
 }
 
@@ -169,4 +175,12 @@ void CModel::BindMesh(const LPD3DXMESH pMesh, const LPD3DXBUFFER pBuffMat, const
 	m_pMesh = pMesh;
 	m_pBuffMat = pBuffMat;
 	m_nNumMat = nNumMat;
+}
+
+//=============================================================================
+// テクスチャ割り当て
+//=============================================================================
+void CModel::BindTexture(const LPDIRECT3DTEXTURE9 pTex)
+{
+	m_pTexture = pTex;
 }

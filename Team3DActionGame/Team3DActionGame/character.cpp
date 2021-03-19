@@ -38,7 +38,7 @@ CCharacter::CCharacter()
 	memset(m_apModel, 0, sizeof(m_apModel));
 	memset(m_posDefault, 0, sizeof(m_posDefault));
 	memset(m_nIndexParent, 0, sizeof(m_nIndexParent));
-
+	memset(m_apTexture, 0, sizeof(m_apTexture));
 	m_pAnimation = NULL;
 	m_cFilePass = NULL;
 
@@ -144,10 +144,12 @@ void CCharacter::Draw(void)
 	{
 		if (nCount == 0)
 		{
+			m_apModel[nCount]->BindTexture(m_apTexture[nCount]);
 			m_apModel[nCount]->Draw(m_pos, m_rot);
 		}
 		else
 		{
+			m_apModel[nCount]->BindTexture(m_apTexture[nCount]);
 			m_apModel[nCount]->Draw(m_apModel[m_nIndexParent[nCount]]);
 		}
 	}
@@ -239,13 +241,13 @@ HRESULT CCharacter::LoadModelData(char* cFilePass)
 	else
 	{
 		printf("開けれませんでした\n");
-	}
+	}// 第1引数		: パーツに割り振られた番号
+
 	return E_NOTIMPL;
 }
 
 //=============================================================================
 // メッシュ割り当て処理
-// 第1引数		: パーツに割り振られた番号
 // 第2引数以降	: メッシュのデータ
 // Author : 樋宮匠
 //=============================================================================
@@ -255,4 +257,12 @@ void CCharacter::BindMesh(CAnimation::ANIM_TYPE type, int nPartIndex, LPD3DXMESH
 	m_pMesh[nPartIndex] = pMesh;
 	m_pBuffMat[nPartIndex] = pBuffMat;
 	m_nNumMat[nPartIndex] = nNumMat;
+}
+
+//=============================================================================
+// テクスチャ割り当て
+//=============================================================================
+void CCharacter::BindTexture(const LPDIRECT3DTEXTURE9 pTex, int nMaterial)
+{
+	m_apTexture[nMaterial] = pTex;
 }

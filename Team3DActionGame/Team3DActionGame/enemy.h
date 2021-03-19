@@ -16,7 +16,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 //*****************************************************************************
 // プレイヤークラス定義
 //*****************************************************************************
@@ -46,6 +45,17 @@ public:
 	}PARTS;
 	typedef enum
 	{
+		TEX_TYPE_NONE = -1,
+		TEX_TYPE_1,
+		TEX_TYPE_2,
+		TEX_TYPE_3,
+		TEX_TYPE_4,
+		TEX_TYPE_5,
+		TEX_TYPE_6,
+		TEX_TYPE_MAX
+	}TEX_TYPE;
+	typedef enum
+	{
 		MOTION_NONE = -1,
 		MOTION_DUSH,
 		MOTION_MEAL,
@@ -53,6 +63,7 @@ public:
 		MOTION_ATTACK
 	}MOTIONENEMY;
 	static HRESULT Load(void);
+	static HRESULT LoadTexture(void);
 	static void Unload(void);
 	static CEnemy * Create(void);
 	HRESULT Init(void);
@@ -65,7 +76,7 @@ private:
 	void Attack(void);
 	void Death(void);
 	void DataLoad(void);
-	static LPDIRECT3DTEXTURE9 m_pTexture;			// テクスチャへのポインタ
+	static LPDIRECT3DTEXTURE9 m_apTexture[PARTS_MAX];			// テクスチャへのポインタ
 	static LPD3DXMESH m_pMesh[PARTS_MAX];
 	static LPD3DXBUFFER m_pBuffMat[PARTS_MAX];
 	static DWORD m_nNumMat[PARTS_MAX];

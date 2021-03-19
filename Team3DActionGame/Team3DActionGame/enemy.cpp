@@ -19,11 +19,11 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene3d.h"
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define SCRIPT_PASS ("Data/Script/EnemyData.txt")				//スクリプトパス
+#define TEXTURE_PASS ("Data//Texture//dinosaur-skin-texture-600w-256919422.png")		// テクスチャパス
 #define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
 #define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
@@ -31,11 +31,10 @@
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//移動量の初期値
 #define MINIMUM_TIME (0)										//時間の初期値
 #define INITIAL_MOVE_SPEED (0.0f)								//移動速度の初期値
-
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CEnemy::m_pTexture = NULL;
+LPDIRECT3DTEXTURE9 CEnemy::m_apTexture[PARTS_MAX] = {};
 LPD3DXMESH CEnemy::m_pMesh[PARTS_MAX] = {};
 LPD3DXBUFFER CEnemy::m_pBuffMat[PARTS_MAX] = {};
 DWORD CEnemy::m_nNumMat[PARTS_MAX] = {};
@@ -83,6 +82,10 @@ HRESULT CEnemy::Load(void)
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/enemy/10_SubTail.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_SUBTAIL], NULL, &m_nNumMat[PARTS_SUBTAIL], &m_pMesh[PARTS_SUBTAIL]);
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/enemy/11_EndTail.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_ENDTAIL], NULL, &m_nNumMat[PARTS_ENDTAIL], &m_pMesh[PARTS_ENDTAIL]);
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/enemy/12_Chin.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_CHIN], NULL, &m_nNumMat[PARTS_CHIN], &m_pMesh[PARTS_CHIN]);
+
+	//LoadTexture();
+	D3DXCreateTextureFromFile(pDevice, TEXTURE_PASS, &m_apTexture[TEX_TYPE_1]);
+
 	return S_OK;
 }
 
@@ -91,10 +94,13 @@ HRESULT CEnemy::Load(void)
 //=============================================================================
 void CEnemy::Unload(void)
 {
-	if (m_pTexture != NULL)
+	for (int nCnt = INIT_INT; nCnt < TEX_TYPE_MAX; nCnt++)
 	{
-		m_pTexture->Release();
-		m_pTexture = NULL;
+		if (m_apTexture[nCnt] != NULL)
+		{
+			m_apTexture[nCnt]->Release();
+			m_apTexture[nCnt]= NULL;
+		}
 	}
 }
 
@@ -133,8 +139,10 @@ HRESULT CEnemy::Init(void)
 	for (int nCount = 0; nCount < PARTS_MAX; nCount++)
 	{
 		BindMesh(CAnimation::TYPE_ENEMY, nCount, m_pMesh[nCount], m_pBuffMat[nCount], m_nNumMat[nCount]);
-	}
 
+		BindTexture(m_apTexture[TEX_TYPE_1], nCount);
+	}
+	
 	// 座標・親子関係の読み込み
 	LoadModelData("./Data/text/motion_enemy.txt");
 	//キャラクターの初期化処理関数呼び出し
@@ -182,6 +190,37 @@ void CEnemy::Draw()
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 	//キャラクターの描画処理関数呼び出し
 	CCharacter::Draw();
+}
+//=============================================================================
+// ロードテクスチャ
+//=============================================================================
+HRESULT CEnemy::LoadTexture(void)
+{
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+
+	// テクスチャ分回す
+	for (int nCount = INIT_INT; nCount < PARTS_MAX; nCount++)
+	{
+		// マテリアル情報を取り出す
+		D3DXMATERIAL* pMat = (D3DXMATERIAL*)m_pBuffMat[nCount]->GetBufferPointer();
+		for (int nCntMat = INIT_INT; nCntMat < (signed)m_nNumMat[nCount]; nCntMat++)
+		{
+			// 使用しているテクスチャがあれば読み込む
+			if (pMat[nCntMat].pTextureFilename != NULL)
+			{
+				// テクスチャ読み込み
+				if (FAILED(D3DXCreateTextureFromFile(
+					pDevice,
+					pMat[nCntMat].pTextureFilename,
+					&m_apTexture[nCount])))
+				{
+					return E_FAIL;
+				}
+			}
+		}
+	}
+	return S_OK;
 }
 
 //=============================================================================
