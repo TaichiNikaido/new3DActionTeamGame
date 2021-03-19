@@ -10,6 +10,7 @@
 //*****************************************************************************
 #include "main.h"
 #include "manager.h"
+#include "mode_game.h"
 #include "sound.h"
 #include "keyboard.h"
 #include "joystick.h"
@@ -17,6 +18,7 @@
 #include "continue_logo.h"
 #include "continue_button_manager.h"
 #include "bg_continue.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -78,6 +80,8 @@ HRESULT CContinue::Init(void)
 //=============================================================================
 void CContinue::Uninit(void)
 {
+	//破棄処理関数呼び出し
+	Release();
 }
 
 //=============================================================================
