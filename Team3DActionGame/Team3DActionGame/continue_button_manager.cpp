@@ -19,6 +19,7 @@
 #include "continue_button_manager.h"
 #include "button_continue.h"
 #include "button_not_continue.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -108,6 +109,14 @@ void CContinueButtonManager::Update(void)
 	}
 	//ボタンの選択時色変更処理関数呼び出し
 	m_apButton[m_nButton]->SelectColor();
+	//CPlayer * pPlayer = CGameMode::GetPlayer();
+	////もしプレイヤーがコンティニューしたら
+	//if (pPlayer->GetContinue() == true)
+	//{
+	//	//終了処理関数呼び出し
+	//	Uninit();
+	//	return;
+	//}
 }
 
 //=============================================================================

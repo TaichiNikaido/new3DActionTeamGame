@@ -16,6 +16,7 @@
 #include "renderer.h"
 #include "scene2d.h"
 #include "continue_logo.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -136,8 +137,16 @@ void CContinueLogo::Uninit(void)
 //=============================================================================
 void CContinueLogo::Update(void)
 {
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//シーン2Dの更新処理関数呼び出し
 	CScene2d::Update();
+	//もしプレイヤーがコンティニューしたら
+	if (pPlayer->GetContinue() == true)
+	{
+		//終了処理関数呼び出し
+		Uninit();
+		return;
+	}
 }
 
 //=============================================================================

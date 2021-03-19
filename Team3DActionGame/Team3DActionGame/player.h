@@ -84,6 +84,7 @@ public:
 	int GetMeat(void) { return m_nMeat; }
 	int GetDiamond(void) { return m_nDiamond; }
 	bool GetbHit(void) { return m_bHit; }
+	bool GetContinue(void) { return m_bContinue; }
 	STATE GetState(void) { return m_State; }
 private:
 	void Input(void);

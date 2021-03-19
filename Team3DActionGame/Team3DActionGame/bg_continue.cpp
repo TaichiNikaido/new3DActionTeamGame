@@ -16,15 +16,16 @@
 #include "renderer.h"
 #include "scene2d.h"
 #include "bg_continue.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/ContinueBG.png")										//テクスチャ
-#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))							//サイズ
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))	//位置
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,0.5f))									//色
-#define FLAME (0)																	//フレーム
+#define TEXTURE ("Data/Texture/ContinueBG.png")								//テクスチャ
+#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))					//サイズ
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))		//位置
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,0.5f))								//色
+#define FLAME (0)															//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -139,8 +140,16 @@ void CContinueBG::Uninit(void)
 //=============================================================================
 void CContinueBG::Update(void)
 {
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//シーン2Dの更新処理関数呼び出し
 	CScene2d::Update();
+	//もしプレイヤーがコンティニューしたら
+	if (pPlayer->GetContinue() == true)
+	{
+		//終了処理関数呼び出し
+		Uninit();
+		return;
+	}
 }
 
 //=============================================================================

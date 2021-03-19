@@ -89,6 +89,14 @@ void CContinue::Uninit(void)
 //=============================================================================
 void CContinue::Update(void)
 {
+	//CPlayer * pPlayer = CGameMode::GetPlayer();
+	////もしプレイヤーがコンティニューしたら
+	//if (pPlayer->GetContinue() == true)
+	//{
+	//	//終了処理関数呼び出し
+	//	Uninit();
+	//	return;
+	//}
 }
 
 //=============================================================================
