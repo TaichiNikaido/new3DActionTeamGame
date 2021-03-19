@@ -102,7 +102,11 @@ void CDia::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	CModelHimiya::Draw();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 //=============================================================================
