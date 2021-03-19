@@ -11,6 +11,9 @@
 #include "dia.h"
 #include "manager.h"
 #include "renderer.h"
+#include "player.h"
+#include "mode_game.h"
+#include "dia_particle.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -67,7 +70,28 @@ void CDia::Uninit(void)
 //=============================================================================
 void CDia::Update(void)
 {
-	CModelHimiya::Update();
+	// プレイヤーとの当たり判定処理
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 rot = GetRot();
+
+	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= pos.x - COLLISION_SIZE_DIA.x / 2 &&
+		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= pos.x + COLLISION_SIZE_DIA.x / 2 && 
+		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= pos.z - COLLISION_SIZE_DIA.z / 2 && 
+		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= pos.z + COLLISION_SIZE_DIA.z / 2 )
+	{
+		pPlayer->AddDiamond(1);
+		CDia_Particle::DiaEffect_Create(pos);
+		Uninit();
+	}
+	else
+	{
+		// 回転させる
+		rot.y += D3DXToRadian(1);
+		SetRot(rot);
+		CModelHimiya::Update();
+	}
 }
 
 //=============================================================================

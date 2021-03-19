@@ -11,6 +11,8 @@
 #include "tile.h"
 #include "manager.h"
 #include "renderer.h"
+#include "player.h"
+#include "mode_game.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -83,7 +85,41 @@ void CTile::Uninit(void)
 //=============================================================================
 void CTile::Update(void)
 {
-    VERTEX_3D *pVtx;
+	// プレイヤーとの特殊タイルの処理
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+	bool bJump = pPlayer->GetIsJump();
+
+	// タイルの上なら
+	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= m_pos.x - TILE_SIZE / 2 &&
+		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= m_pos.x + TILE_SIZE / 2 &&
+		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= m_pos.z - TILE_SIZE / 2 &&
+		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= m_pos.z + TILE_SIZE / 2 )
+	{
+		switch (m_type)
+		{
+		case TILE_MUD:
+		case TILE_DIA_MUD:
+			if (!bJump)
+			{
+				// プレイヤーを遅く
+			}
+			break;
+		case TILE_HOLE:
+			// 穴に落ちる
+			break;
+		case TILE_CHECK_POINT:
+			// チェックポイント更新
+			break;
+		case TILE_GOAL:
+			// ゴール（やったー）
+			break;
+		default:
+			break;
+		}
+	}
+
+	VERTEX_3D *pVtx;
 
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
@@ -96,7 +132,6 @@ void CTile::Update(void)
     pVtx[1].tex = D3DXVECTOR2(m_TexRightX, m_TexTopY);
     pVtx[2].tex = D3DXVECTOR2(m_TexLeftX, m_TexBottomY);
     pVtx[3].tex = D3DXVECTOR2(m_TexRightX, m_TexBottomY);
-
 
     for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
     {
