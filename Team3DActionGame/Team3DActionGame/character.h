@@ -62,6 +62,7 @@ public:
 	void SetPosOld(const D3DXVECTOR3 posOld) { m_posOld = posOld; }
 
 	void BindMesh(CAnimation::ANIM_TYPE type, int nPartIndex, LPD3DXMESH pMesh, LPD3DXBUFFER pBuffMat, DWORD nNumMat);
+	void BindTexture(const LPDIRECT3DTEXTURE9 pTex, int nMaterial);
 
 	// ゲッター
 	D3DXVECTOR3 GetDefaultPos(int index) { return m_posDefault[index]; }
@@ -91,6 +92,7 @@ private:
 	DWORD					m_nNumMat[CHARCTER_PARTS_MAX];
 	D3DXVECTOR3				m_posDefault[CHARCTER_PARTS_MAX];
 	int						m_nIndexParent[CHARCTER_PARTS_MAX];
+	LPDIRECT3DTEXTURE9		m_apTexture[CHARCTER_PARTS_MAX];
 
 	D3DXVECTOR3		m_pos;                                              // 全ての親の位置                                        // 1F前の位置
 	D3DXVECTOR3		m_rot;                                              // 全ての親の向き

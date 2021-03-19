@@ -16,7 +16,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
 //================================================
 // クラス宣言
 //================================================
@@ -33,6 +32,7 @@ public:
 	void Draw(CModel *model);
 	void Draw(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	void BindMesh(const LPD3DXMESH pMesh, const  LPD3DXBUFFER pBuffMat, const DWORD nNumMat);
+	void BindTexture(const LPDIRECT3DTEXTURE9 pTex);
 	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
 	void SetScale(D3DXVECTOR3 scale) { m_scale = scale; }
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
@@ -46,6 +46,7 @@ private:
 	LPD3DXMESH				m_pMesh;
 	LPD3DXBUFFER			m_pBuffMat;
 	DWORD					m_nNumMat;
+	LPDIRECT3DTEXTURE9		m_pTexture;
 	D3DXMATRIX			    m_mtxWorld;		// ワールドマトリックス
 	D3DXVECTOR3				m_pos;			// 座標
 	D3DXVECTOR3				m_rot;			// 回転
