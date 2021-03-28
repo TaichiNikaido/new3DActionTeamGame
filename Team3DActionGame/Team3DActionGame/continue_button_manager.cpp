@@ -99,8 +99,6 @@ void CContinueButtonManager::Uninit(void)
 //=============================================================================
 void CContinueButtonManager::Update(void)
 {
-	//入力処理関数呼び出し
-	Input();
 	//ボタンの最大数分回す
 	for (int nCount = 0; nCount < BUTTON_MAX; nCount++)
 	{
@@ -109,14 +107,8 @@ void CContinueButtonManager::Update(void)
 	}
 	//ボタンの選択時色変更処理関数呼び出し
 	m_apButton[m_nButton]->SelectColor();
-	//CPlayer * pPlayer = CGameMode::GetPlayer();
-	////もしプレイヤーがコンティニューしたら
-	//if (pPlayer->GetContinue() == true)
-	//{
-	//	//終了処理関数呼び出し
-	//	Uninit();
-	//	return;
-	//}
+	//入力処理関数呼び出し
+	Input();
 }
 
 //=============================================================================
@@ -177,6 +169,15 @@ void CContinueButtonManager::Input(void)
 	{
 		//ボタンのプレス処理関数呼び出し
 		m_apButton[m_nButton]->Press();
+		//ボタンの総数分回す
+		for (int nCount = BUTTON_CONTINUE; nCount < BUTTON_MAX; nCount++)
+		{
+			//各ボタンの終了処理関数呼び出し
+			m_apButton[nCount]->Uninit();
+		}
+		//終了処理関数呼び出し
+		Uninit();
+		return;
 	}
 }
 

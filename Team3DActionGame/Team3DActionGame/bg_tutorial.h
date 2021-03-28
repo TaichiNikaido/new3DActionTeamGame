@@ -37,7 +37,7 @@ public:
 		TEX_TYPE_CONTROLLER,
 		TEX_TYPE_MAX
 	}TEX_TYPE;
-	CTutorialBG();
+	CTutorialBG(int nPriority = OBJTYPE_TUTORIAL);
 	~CTutorialBG();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

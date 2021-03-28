@@ -292,7 +292,7 @@ void CScene::UpdateAll(void)
 	else
 	{
 		// pScene‚Ém_pTop‚ð‘ã“ü
-		CScene *pScene = m_pTop[OBJTYPE_FADE];
+		CScene *pScene = m_pTop[OBJTYPE_TUTORIAL];
 
 		// pScene‚ªNULL‚É‚È‚é‚Ü‚ÅŒJ‚è•Ô‚·
 		while (pScene != NULL)

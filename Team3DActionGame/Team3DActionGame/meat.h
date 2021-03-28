@@ -1,49 +1,48 @@
-//================================================
+#pragma once
+//====================================================================
 //
-// 肉の所持数処理 [Meat.h]
-// Author : 佐藤颯紀
+// 肉の処理 (meat.h)
+// Author : 二階堂汰一
 //
-//================================================
-
+//====================================================================
 #ifndef _MEAT_H_
 #define _MEAT_H_
 
 //================================================
-//インクルードファイル
+// インクルードファイル
 //================================================
 #include "main.h"
-#include "scene.h"
-#include "number.h"
+#include "model_himiya.h"
 
 //================================================
-//マクロ定義
+// マクロ定義
 //================================================
-#define MEATE_MAX_DIGITS	(2)			// 肉の最大桁数
-#define MEAT_NUMBER_POS_X	(1790.0f)	// 肉の所持数のX座標
-#define MEAT_NUMBER_POS_Y	(400.0f)	// 肉の所持数のY座標
-#define MEAT_NUMBER_SIZE	(40.0f)		// 肉の所持数のサイズ
-#define MEAT_POSSESSION		(3)			// 肉の初期の数
+#define COLLISION_SIZE_MEAT D3DXVECTOR3(200.0f, 200.0f, 200.0f)
 
 //================================================
-//クラス宣言
+// クラス宣言
 //================================================
-class CMeatUI : public CScene
+
+// UIクラス
+class CMeat : public CModelHimiya
 {
 public:
-	CMeatUI(int nPriority = OBJTYPE_DEFAULT);
-	~CMeatUI();
-
-	static CMeatUI *Create();
-
-	HRESULT Init();
+	CMeat();
+	~CMeat();
+	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	static int GetMeat(void) { return m_nMeat; }	// 肉の取得
-
+	static HRESULT Load(void);
+	static void Unload(void);
+	static CMeat *Create(D3DXVECTOR3 pos);
 private:
-	CNumber *m_apNumber[MEATE_MAX_DIGITS];	// 桁数
-	static int m_nMeat;						// 肉
+	static LPDIRECT3DTEXTURE9		m_pTexture;
+	static LPD3DXMESH				m_pMesh;
+	static LPD3DXBUFFER				m_pBuffMat;
+	static DWORD					m_nNumMat;
+	D3DXVECTOR3						m_rot;
 };
 
-#endif // ! _UI_NUMBER_H_
+#endif
+

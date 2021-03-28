@@ -88,6 +88,17 @@ void CField::Uninit(void)
 //=============================================================================
 void CField::Update(void)
 {
+	for (int nCountHeight = 0; nCountHeight < FIELD_HEIGHT; nCountHeight++)
+	{
+		for (int nCountWidth = 0; nCountWidth < FIELD_WIDTH; nCountWidth++)
+		{
+			// ’†g‚ª‚ ‚é‚È‚ç
+			if (m_apTile[nCountHeight][nCountWidth] != NULL)
+			{
+				m_apTile[nCountHeight][nCountWidth]->Update();
+			}
+		}
+	}
 }
 
 //=============================================================================
@@ -174,7 +185,7 @@ void CField::SetField(int nWidth, int nDepth)
 {
 	int nHeight = 0;
 
-	for (int nCountHeight = nDepth - 1; nCountHeight > -1; nCountHeight--)
+	for (int nCountHeight = 0; nCountHeight < nDepth; nCountHeight++)
 	{
 		for (int nCountWidth = 0; nCountWidth < nWidth; nCountWidth++)
 		{
@@ -183,85 +194,85 @@ void CField::SetField(int nWidth, int nDepth)
 			case CTile::TILE_DIRT:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_DIRT);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_GRASS:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_GRASS);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_TREE_DIRT:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_TREE_DIRT);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 
-				CTree::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+				CTree::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_TREE_GRASS:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_TREE_GRASS);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
-				CTree::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CTree::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_WOOD_DIRT:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_WOOD_DIRT);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
-				CWood::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CWood::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_WOOD_GRASS:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_WOOD_GRASS);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
-				CWood::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CWood::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_MUD:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_MUD);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_DIA_DIRT:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_DIA_DIRT);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
-				CDia::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 50.0f, nCountHeight * TILE_SIZE));
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CDia::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 50.0f, nCountHeight * TILE_SIZE));
+				break;
+
+			case CTile::TILE_HOLE:
+				m_apTile[nCountHeight][nCountWidth] = new CTile;
+				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_HOLE);
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_DIA_MUD:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_DIA_MUD);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
-				CDia::Create(D3DXVECTOR3(nCountWidth * TILE_SIZE, 50.0f, nCountHeight * TILE_SIZE));
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CDia::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 50.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_CHECK_POINT:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_CHECK_POINT);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_GOAL:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
 				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_GOAL);
-				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(nCountWidth * TILE_SIZE / 2, 0.0f, nCountHeight * TILE_SIZE / 2));
-				m_apTile[nCountHeight][nCountWidth]->Update();
+				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 			default:
 				break;

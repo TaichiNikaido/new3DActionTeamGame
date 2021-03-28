@@ -76,10 +76,10 @@ void CDia::Update(void)
 	D3DXVECTOR3 pos = GetPos();
 	D3DXVECTOR3 rot = GetRot();
 
-	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= pos.x - COLLISION_SIZE_DIA.x / 2 &&
-		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= pos.x + COLLISION_SIZE_DIA.x / 2 && 
-		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= pos.z - COLLISION_SIZE_DIA.z / 2 && 
-		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= pos.z + COLLISION_SIZE_DIA.z / 2 )
+	if (playerPos.x >= pos.x - COLLISION_SIZE_DIA.x / 2 &&
+		playerPos.x <= pos.x + COLLISION_SIZE_DIA.x / 2 && 
+		playerPos.z >= pos.z - COLLISION_SIZE_DIA.z / 2 && 
+		playerPos.z <= pos.z + COLLISION_SIZE_DIA.z / 2 )
 	{
 		pPlayer->AddDiamond(1);
 		CDia_Particle::DiaEffect_Create(pos);

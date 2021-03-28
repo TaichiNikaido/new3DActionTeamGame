@@ -82,6 +82,7 @@ public:
 	void Hit(void);
 	void AddDiamond(int nValue) { m_nDiamond += nValue; }
 	void SetContinue(bool bContinue) { m_bContinue = bContinue; }
+	void SetbSlow(bool bSlowRun) { m_bSlowRun = bSlowRun; }
 	int GetMeat(void) { return m_nMeat; }
 	int GetDiamond(void) { return m_nDiamond; }
 	bool GetbHit(void) { return m_bHit; }
@@ -108,12 +109,14 @@ private:
 	int m_nStunTime;										//スタン時間
 	int m_nStunTimeCount;									//スタン時間のカウント
 	float m_fAutoRunSpeed;									//オートランの速度
+	float m_fSlowSpeed;										//スロウの速度
 	float m_fLeftRightSpeed;								//左右移動速度
 	float m_fJumpPower;										//ジャンプ力
 	float m_fGravity;										//重力
 	bool m_bHit;											//ヒットしたか
 	bool m_bJump;											//ジャンプしたかどうが
 	bool m_bContinue;										//コンティニューするか
+	bool m_bSlowRun;										//スロウにする
 	STATE m_State;											//状態
 	INPUT m_Input;											//入力
 };

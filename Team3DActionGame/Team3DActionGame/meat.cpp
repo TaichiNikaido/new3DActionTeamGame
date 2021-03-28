@@ -1,123 +1,158 @@
-//================================================
+//===============================================
 //
-// ui_number処理 [ui_number.h]
-// Author : 佐藤颯紀
+// 肉処理 (meat.cpp)
+// Author : 二階堂汰一
 //
-//================================================
+//===============================================
 
-//================================================
+//========================
 // インクルードファイル
-//================================================
+//========================
 #include "meat.h"
-#include "number.h"
 #include "manager.h"
+#include "renderer.h"
+#include "enemy.h"
 #include "mode_game.h"
-#include "player.h"
 
-//================================================
+//========================
 // 静的メンバ変数宣言
-//================================================
-int CMeatUI::m_nMeat = NULL;
+//========================
+LPD3DXMESH	CMeat::m_pMesh = NULL;
+LPD3DXBUFFER CMeat::m_pBuffMat = NULL;
+DWORD CMeat::m_nNumMat = NULL;
+LPDIRECT3DTEXTURE9 CMeat::m_pTexture = NULL;
 
-//================================================
-// クリエイト処理
-//================================================
-CMeatUI *CMeatUI::Create()
-{
-	CMeatUI *pMeat;
-	pMeat = new CMeatUI;
-	pMeat->Init();
-
-	return pMeat;
-}
-
-//====================================================
+//=============================================================================
 // コンストラクタ
-//====================================================
-CMeatUI::CMeatUI(int nPriority) : CScene(nPriority)
+//=============================================================================
+CMeat::CMeat()
 {
-
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
-//====================================================
+//=============================================================================
 // デストラクタ
-//====================================================
-CMeatUI::~CMeatUI()
+// Author : 樋宮匠
+//=============================================================================
+CMeat::~CMeat()
 {
-
 }
 
-//================================================
+//=============================================================================
 // 初期化処理
-//================================================
-HRESULT CMeatUI::Init()
+// Author : 樋宮匠
+//=============================================================================
+HRESULT CMeat::Init(void)
 {
-	m_nMeat = MEAT_POSSESSION;		// 肉の初期値
+	CModelHimiya::Init();
 
-	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
-	{
-		// 数字の生成
-		m_apNumber[nCount] = CNumber::Create(D3DXVECTOR3(MEAT_NUMBER_POS_X + nCount*MEAT_NUMBER_SIZE, MEAT_NUMBER_POS_Y, 0.0f),
-			D3DXVECTOR3(MEAT_NUMBER_SIZE, MEAT_NUMBER_SIZE, 0.0f),
-			CNumber::NUMBERTYPE_MEAT);
-	}
+	BindMesh(m_pMesh, m_pBuffMat, m_nNumMat);
+	BindTexture(m_pTexture);
+
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 	return S_OK;
 }
 
-//================================================
+//=============================================================================
 // 終了処理
-//================================================
-void CMeatUI::Uninit(void)
+// Author : 樋宮匠
+//=============================================================================
+void CMeat::Uninit(void)
 {
-	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
-	{
-		//ナンバー処理の終了と開放
-		if (m_apNumber[nCount] != NULL)
-		{
-			// 終了処理
-			m_apNumber[nCount]->Uninit();
-			m_apNumber[nCount] = NULL;
-		}
-	}
-
-	// 開放
-	Release();
+	CModelHimiya::Uninit();
 }
 
-//================================================
+//=============================================================================
 // 更新処理
-//================================================
-void CMeatUI::Update(void)
+// Author : 樋宮匠
+//=============================================================================
+void CMeat::Update(void)
 {
-	CPlayer * pPlayer = CGameMode::GetPlayer();
+	// プレイヤーとの当たり判定処理
+	CEnemy *pEnemy = CGameMode::GetEnemy();
+	D3DXVECTOR3 EnemyPosition = pEnemy->GetPos();
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 rot = GetRot();
 
-	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
+	if (EnemyPosition.x >= pos.x - COLLISION_SIZE_MEAT.x / 2 &&
+		EnemyPosition.x <= pos.x + COLLISION_SIZE_MEAT.x / 2 &&
+		EnemyPosition.z >= pos.z - COLLISION_SIZE_MEAT.z / 2 &&
+		EnemyPosition.z <= pos.z + COLLISION_SIZE_MEAT.z / 2)
 	{
-		// 更新処理
-		m_apNumber[nCount]->Update();
+		pEnemy->Eat();
+		Uninit();
 	}
-	//もしプレイヤーのポインタがNULLじゃない場合
-	if (pPlayer != NULL)
+	else
 	{
-		//プレイヤーの肉の数を取得する
-		m_nMeat = pPlayer->GetMeat();
-	}
-	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
-	{
-		// 表示してる数字に加算させる
-		m_apNumber[nCount]->SetNumber(m_nMeat % (int)powf(10, MEATE_MAX_DIGITS - nCount) / powf(10, MEATE_MAX_DIGITS - nCount - 1));
+		// 回転させる
+		rot.y += D3DXToRadian(1);
+		SetRot(rot);
+		CModelHimiya::Update();
 	}
 }
 
-//================================================
+//=============================================================================
 // 描画処理
-//================================================
-void CMeatUI::Draw(void)
+// Author : 樋宮匠
+//=============================================================================
+void CMeat::Draw(void)
 {
-	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	CModelHimiya::Draw();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+}
+
+//=============================================================================
+// テクスチャ・モデルデータ読み込み処理
+// Author : 樋宮匠
+//=============================================================================
+HRESULT CMeat::Load(void)
+{
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+
+	D3DXLoadMeshFromX(LPCSTR("./data/MODEL/dia.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh);
+	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dia.jpg", &m_pTexture);
+
+	return S_OK;
+}
+
+//=============================================================================
+// テクスチャ・モデルデータ破棄処理
+// Author : 樋宮匠
+//=============================================================================
+void CMeat::Unload(void)
+{
+	if (m_pMesh != NULL)
 	{
-		// 描画処理
-		m_apNumber[nCount]->Draw();
+		m_pMesh->Release();
+		m_pMesh = NULL;
+	}
+	if (m_pBuffMat != NULL)
+	{
+		m_pBuffMat->Release();
+		m_pBuffMat = NULL;
+	}
+	if (m_pTexture != NULL)
+	{
+		m_pTexture->Release();
+		m_pTexture = NULL;
 	}
 }
 
+//=============================================================================
+// インスタンス生成処理
+// Author : 樋宮匠
+//=============================================================================
+CMeat * CMeat::Create(D3DXVECTOR3 pos)
+{
+	CMeat *pMeat = NULL;
+	pMeat = new CMeat;
+	pMeat->Init();
+	pMeat->SetPos(pos);
+	return pMeat;
+}

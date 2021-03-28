@@ -19,6 +19,9 @@
 //*****************************************************************************
 // 前方宣言
 //*****************************************************************************
+class CContinueBG;
+class CContinueLogo;
+class CContinueButtonManager;
 
 //*****************************************************************************
 // クラス定義
@@ -35,5 +38,8 @@ public:
 	void Draw(void);
 private:
 	void CreateAll(void);
+	CContinueBG * m_pContinueBG;
+	CContinueLogo * m_pContinueLogo;
+	CContinueButtonManager * m_pContinueButtonManager;
 };
 #endif

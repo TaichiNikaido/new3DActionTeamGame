@@ -24,7 +24,7 @@ class CCamera;
 class CPlayer;
 class CEnemy;
 class CUi;
-
+class CTutorialBG;
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
@@ -49,5 +49,6 @@ private:
 	static CEnemy * m_pEnemy;	//敵のポインタ
 	static CUi * m_pUi;			//UIのポインタ
 	CLight * m_pLight;			//ライトのポインタ
+	CTutorialBG * m_pTutorial;
 };
 #endif

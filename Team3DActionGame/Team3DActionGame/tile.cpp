@@ -13,6 +13,7 @@
 #include "renderer.h"
 #include "player.h"
 #include "mode_game.h"
+#include "player.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -91,10 +92,10 @@ void CTile::Update(void)
 	bool bJump = pPlayer->GetIsJump();
 
 	// タイルの上なら
-	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= m_pos.x - TILE_SIZE / 2 &&
-		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= m_pos.x + TILE_SIZE / 2 &&
-		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= m_pos.z - TILE_SIZE / 2 &&
-		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= m_pos.z + TILE_SIZE / 2 )
+	if (playerPos.x >= m_pos.x - TILE_SIZE / 2 &&
+		playerPos.x <= m_pos.x + TILE_SIZE / 2 &&
+		playerPos.z >= m_pos.z - TILE_SIZE / 2 &&
+		playerPos.z <= m_pos.z + TILE_SIZE / 2 )
 	{
 		switch (m_type)
 		{
@@ -102,7 +103,10 @@ void CTile::Update(void)
 		case TILE_DIA_MUD:
 			if (!bJump)
 			{
-				// プレイヤーを遅く
+				if (pPlayer != NULL)
+				{
+					pPlayer->SetbSlow(true);
+				}
 			}
 			break;
 		case TILE_HOLE:
@@ -115,6 +119,10 @@ void CTile::Update(void)
 			// ゴール（やったー）
 			break;
 		default:
+			if (pPlayer != NULL)
+			{
+				pPlayer->SetbSlow(false);
+			}
 			break;
 		}
 	}
@@ -123,10 +131,10 @@ void CTile::Update(void)
 
     m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-    pVtx[0].pos = D3DXVECTOR3(m_pos.x - TILE_SIZE / 2, m_pos.y, m_pos.z + TILE_SIZE / 2);
-    pVtx[1].pos = D3DXVECTOR3(m_pos.x + TILE_SIZE / 2, m_pos.y, m_pos.z + TILE_SIZE / 2);
-    pVtx[2].pos = D3DXVECTOR3(m_pos.x - TILE_SIZE / 2, m_pos.y, m_pos.z - TILE_SIZE / 2);
-    pVtx[3].pos = D3DXVECTOR3(m_pos.x + TILE_SIZE / 2, m_pos.y, m_pos.z - TILE_SIZE / 2);
+    pVtx[0].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
+    pVtx[1].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
+    pVtx[2].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
+    pVtx[3].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
 
     pVtx[0].tex = D3DXVECTOR2(m_TexLeftX, m_TexTopY);
     pVtx[1].tex = D3DXVECTOR2(m_TexRightX, m_TexTopY);
@@ -137,7 +145,14 @@ void CTile::Update(void)
     {
         pVtx[nCount].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-        pVtx[nCount].col = m_col;
+		if (m_type != TILE_HOLE)
+		{
+			pVtx[nCount].col = m_col;
+		}
+		else
+		{
+			pVtx[nCount].col = D3DCOLOR_RGBA(255, 255, 255, 0);
+		}
     }
 
     m_pVtxBuff->Unlock();
@@ -233,7 +248,7 @@ HRESULT CTile::Load(void)
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/grass.png", &m_apTexture[TILE_WOOD_GRASS]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/mud.png", &m_apTexture[TILE_MUD]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_DIA_DIRT]);
-	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_HOLE]);
+	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/.png", &m_apTexture[TILE_HOLE]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/mud.png", &m_apTexture[TILE_DIA_MUD]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_CHECK_POINT]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_GOAL]);

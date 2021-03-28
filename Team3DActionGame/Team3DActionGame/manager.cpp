@@ -40,6 +40,7 @@
 #include "tree.h"
 #include "tile.h"
 #include "dia.h"
+#include "meat.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -258,6 +259,7 @@ void CManager::LoadAll(void)
 	CWood::Load();
 	CTile::Load();
 	CDia::Load();
+	CMeat::Load();
 }
 
 //=============================================================================
@@ -283,6 +285,7 @@ void CManager::UnloadAll(void)
 	CTree::Unload();
 	CTile::Unload();
 	CDia::Unload();
+	CMeat::Unload();
 }
 
 //=============================================================================

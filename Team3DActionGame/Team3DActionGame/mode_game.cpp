@@ -16,14 +16,13 @@
 #include "light.h"
 #include "player.h"
 #include "enemy.h"
-#include "meat.h"
-#include "daiya.h"
+#include "ui_meat.h"
+#include "ui_daiya.h"
 #include "ui.h"
 #include "byte_effect.h"
 #include "bg_tutorial.h"
 #include "dust_particle.h"
 #include "field.h"
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -43,6 +42,7 @@ CGameMode::CGameMode()
 {
 	m_pUi		= NULL;
 	m_pLight	= NULL;	//ライトのポインタ
+	m_pTutorial = NULL;
 }
 
 //=============================================================================
@@ -196,8 +196,8 @@ void CGameMode::InitCreateAll(void)
 	}
 	CDust_Particle::SandDust_Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CByte_Effect::ByteEffect_Create(D3DXVECTOR3(0.0f,0.0f,0.0f),D3DXVECTOR3(300.0f,300.0f,0.0f));
-
 	CField::Create();
+	m_pTutorial = CTutorialBG::Create();
 }
 
 //=============================================================================

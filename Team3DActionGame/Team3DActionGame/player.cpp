@@ -24,10 +24,11 @@
 #include "joystick.h"
 #include "player.h"
 #include "camera.h"
-#include "item_meat.h"
 #include "stan_effect.h"
 #include "continue.h"
 #include "animation.h"
+#include "meat.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -69,12 +70,14 @@ CPlayer::CPlayer()
 	m_nStunTime = MINIMUM_STAN_TIME;								//スタン時間
 	m_nStunTimeCount = MINIMUM_STAN_TIME;							//スタン時間のカウント
 	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;							//移動速度
+	m_fSlowSpeed = INITIAL_MOVE_SPEED;								//スロウ速度
 	m_fLeftRightSpeed = INITIAL_MOVE_SPEED;							//左右移動速度
 	m_fJumpPower = INITIAL_JUMP_POWER;								//ジャンプ力
 	m_fGravity = INITIAL_GRAVITY;									//重力
 	m_bHit = false;													//ヒットしたか
 	m_bJump = false;												//ジャンプしたかどうか
 	m_bContinue = false;											//コンティニューするかどうか
+	m_bSlowRun = false;												//スロウにするか
 	m_State = STATE_NONE;											//状態
 	m_Input = INPUT_NONE;											//入力情報
 }
@@ -104,7 +107,6 @@ HRESULT CPlayer::Load(void)
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/player/07_RightShoe.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_RSHOE], NULL, &m_nNumMat[PARTS_RSHOE], &m_pMesh[PARTS_RSHOE]);
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/player/08_LeftLeg.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_LLEG], NULL, &m_nNumMat[PARTS_LLEG], &m_pMesh[PARTS_LLEG]);
 	D3DXLoadMeshFromX(LPCSTR("./Data/model/player/09_LeftShoe.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat[PARTS_LSHOE], NULL, &m_nNumMat[PARTS_LSHOE], &m_pMesh[PARTS_LSHOE]);
-
 	return S_OK;
 }
 
@@ -353,7 +355,14 @@ void CPlayer::AutoRun(void)
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
 	//移動させる
-	m_Move.z = m_fAutoRunSpeed;
+	if (m_bSlowRun == false)
+	{
+		m_Move.z = m_fAutoRunSpeed;
+	}
+	else
+	{
+		m_Move.z = m_fSlowSpeed;
+	}
 	//位置更新
 	Position.z += m_Move.z;
 	//位置を設定する
@@ -525,14 +534,20 @@ void CPlayer::DataLoad(void)
 							//現在のテキストがStunTimeだったら
 							if (strcmp(aCurrentText, "StunTime") == 0)
 							{
-								//サイズの設定
+								//スタン速度の設定
 								sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nStunTime);
 							}
 							//現在のテキストがAutoRunSpeedだったら
 							if (strcmp(aCurrentText, "AutoRunSpeed") == 0)
 							{
-								//サイズの設定
+								//オートラン速度の設定
 								sscanf(aReadText, "%s %s %f", &aUnnecessaryText, &aUnnecessaryText, &m_fAutoRunSpeed);
+							}
+							//現在のテキストがSlowSpeedだったら
+							if (strcmp(aCurrentText, "SlowSpeed") == 0)
+							{
+								//スロウ速度の設定
+								sscanf(aReadText, "%s %s %f", &aUnnecessaryText, &aUnnecessaryText, &m_fSlowSpeed);
 							}
 							//現在のテキストがLeftRightSpeedだったら
 							if (strcmp(aCurrentText, "LeftRightSpeed") == 0)

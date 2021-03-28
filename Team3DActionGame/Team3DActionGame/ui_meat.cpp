@@ -1,6 +1,6 @@
 //================================================
 //
-// スコア処理 [score.cpp]
+// ui_number処理 [ui_number.h]
 // Author : 佐藤颯紀
 //
 //================================================
@@ -8,39 +8,41 @@
 //================================================
 // インクルードファイル
 //================================================
-#include "score.h"
+#include "ui_meat.h"
 #include "number.h"
 #include "manager.h"
-#include "ui_daiya.h"
+#include "mode_game.h"
+#include "player.h"
 
 //================================================
 // 静的メンバ変数宣言
 //================================================
+int CMeatUI::m_nMeat = NULL;
 
 //================================================
 // クリエイト処理
 //================================================
-CScore *CScore::Create()
+CMeatUI *CMeatUI::Create()
 {
-	CScore *pScore;
-	pScore = new CScore;
-	pScore->Init();
+	CMeatUI *pMeat;
+	pMeat = new CMeatUI;
+	pMeat->Init();
 
-	return pScore;
+	return pMeat;
 }
 
 //====================================================
 // コンストラクタ
 //====================================================
-CScore::CScore(int nPriority) : CScene(nPriority)
+CMeatUI::CMeatUI(int nPriority) : CScene(nPriority)
 {
-	m_nScore = 0;	// スコア
+
 }
 
 //====================================================
 // デストラクタ
 //====================================================
-CScore::~CScore()
+CMeatUI::~CMeatUI()
 {
 
 }
@@ -48,31 +50,26 @@ CScore::~CScore()
 //================================================
 // 初期化処理
 //================================================
-HRESULT CScore::Init()
+HRESULT CMeatUI::Init()
 {
-	// ダイヤの数取得
-	m_nDaiya = 0;
+	m_nMeat = MEAT_POSSESSION;		// 肉の初期値
 
-	// スコアの初期値
-	m_nScore = 0;
-
-	for (int nCount = 0; nCount < MAX_SCORE; nCount++)
+	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
 	{
 		// 数字の生成
-		m_apNumber[nCount] = CNumber::Create(D3DXVECTOR3(SCORE_POS_X + nCount*SCORE_SIZE, SCORE_POS_Y, 0.0f), D3DXVECTOR3(SCORE_SIZE, SCORE_SIZE, 0.0f), CNumber::NUMBERTYPE_SCORE);
+		m_apNumber[nCount] = CNumber::Create(D3DXVECTOR3(MEAT_NUMBER_POS_X + nCount*MEAT_NUMBER_SIZE, MEAT_NUMBER_POS_Y, 0.0f),
+			D3DXVECTOR3(MEAT_NUMBER_SIZE, MEAT_NUMBER_SIZE, 0.0f),
+			CNumber::NUMBERTYPE_MEAT);
 	}
-
-	AddScore();
-
 	return S_OK;
 }
 
 //================================================
 // 終了処理
 //================================================
-void CScore::Uninit(void)
+void CMeatUI::Uninit(void)
 {
-	for (int nCount = 0; nCount < MAX_SCORE; nCount++)
+	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
 	{
 		//ナンバー処理の終了と開放
 		if (m_apNumber[nCount] != NULL)
@@ -82,6 +79,7 @@ void CScore::Uninit(void)
 			m_apNumber[nCount] = NULL;
 		}
 	}
+
 	// 開放
 	Release();
 }
@@ -89,42 +87,37 @@ void CScore::Uninit(void)
 //================================================
 // 更新処理
 //================================================
-void CScore::Update(void)
+void CMeatUI::Update(void)
 {
-	for (int nCount = 0; nCount < MAX_SCORE; nCount++)
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+
+	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
 	{
 		// 更新処理
 		m_apNumber[nCount]->Update();
+	}
+	//もしプレイヤーのポインタがNULLじゃない場合
+	if (pPlayer != NULL)
+	{
+		//プレイヤーの肉の数を取得する
+		m_nMeat = pPlayer->GetMeat();
+	}
+	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
+	{
+		// 表示してる数字に加算させる
+		m_apNumber[nCount]->SetNumber(m_nMeat % (int)powf(10, MEATE_MAX_DIGITS - nCount) / powf(10, MEATE_MAX_DIGITS - nCount - 1));
 	}
 }
 
 //================================================
 // 描画処理
 //================================================
-void CScore::Draw(void)
+void CMeatUI::Draw(void)
 {
-	for (int nCount = 0; nCount < MAX_SCORE; nCount++)
+	for (int nCount = 0; nCount < MEATE_MAX_DIGITS; nCount++)
 	{
 		// 描画処理
 		m_apNumber[nCount]->Draw();
 	}
-
 }
 
-//================================================
-// スコア加算処理
-//================================================
-void CScore::AddScore(void)
-{
-	// ダイヤの数の情報を取得
-	m_nDaiya = CDaiyaUI::GetDaiya();
-
-	// スコアにダイヤの数を加算する
-	m_nScore += m_nDaiya;
-
-	for (int nCount = 0; nCount < MAX_SCORE; nCount++)
-	{
-		// 表示してる数字に加算させる
-		m_apNumber[nCount]->SetNumber(m_nScore % (int)powf(10, MAX_SCORE - nCount) / (int)powf(10, MAX_SCORE - nCount - 1));
-	}
-}

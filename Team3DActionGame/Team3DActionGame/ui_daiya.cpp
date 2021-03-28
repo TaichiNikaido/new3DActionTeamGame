@@ -8,7 +8,7 @@
 //================================================
 // インクルードファイル
 //================================================
-#include "daiya.h"
+#include "ui_daiya.h"
 #include "number.h"
 #include "manager.h"
 #include "mode_game.h"

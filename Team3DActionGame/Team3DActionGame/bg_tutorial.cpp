@@ -15,6 +15,7 @@
 #include "mode_game.h"
 #include "renderer.h"
 #include "scene2d.h"
+#include "Keyboard.h"
 #include "joystick.h"
 #include "bg_tutorial.h"
 
@@ -36,7 +37,7 @@ LPDIRECT3DTEXTURE9 CTutorialBG::m_pTexture[TEX_TYPE_MAX] = {};						//テクスチャ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CTutorialBG::CTutorialBG()
+CTutorialBG::CTutorialBG(int nPriority) : CScene2d(nPriority)
 {
 }
 
@@ -100,14 +101,20 @@ CTutorialBG * CTutorialBG::Create(void)
 		//もしタイトル背景がNULLじゃない場合
 		if (pTitleBG != NULL)
 		{
-			//初期化処理関数呼び出し
-			pTitleBG->Init();
 			//位置を設定する
 			pTitleBG->SetPosition(POSITION);
+
 			//サイズを設定する
 			pTitleBG->SetSize(SIZE);
+
 			//色を設定する
 			pTitleBG->SetColor(COLOR);
+
+			// オブジェタイプ設定
+			pTitleBG->SetObjType(OBJTYPE_TUTORIAL);
+
+			//初期化処理関数呼び出し
+			pTitleBG->Init();
 		}
 	}
 	//タイトル背景のポインタを返す
@@ -159,6 +166,9 @@ HRESULT CTutorialBG::Init(void)
 		//テクスチャの割り当て
 		BindTexture(m_pTexture[TEX_TYPE_KEYBOARD]);
 	}
+
+	// 全体の更新停止
+	CScene::SetUpdateStop(true);
 	return S_OK;
 }
 
@@ -178,6 +188,34 @@ void CTutorialBG::Update(void)
 {
 	//シーン2Dの更新処理関数呼び出し
 	CScene2d::Update();
+
+	//キーボードの取得
+	CKeyboard *pKeyboard = CManager::GetKeyboard();
+
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
+
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
+
+	//ジョイスティックの振動取得
+	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	//もしENTERかAボタンを押したとき
+	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
+	{
+		// 全体の更新停止
+		CScene::SetUpdateStop(false);
+		// 終了
+		Uninit();
+		return;
+	}
 }
 
 //=============================================================================
