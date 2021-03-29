@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-﻿  mode_game.cpp
-cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
-  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
-  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
-=======
 ﻿  enemy.cpp
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (10)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (10)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
->>>>>>> 6005c6a5d904bee2f4e975964c9cd77d36b18b7d
+enemy.obj : error LNK2019: 未解決の外部シンボル "public: void __thiscall CPlayer::Death(void)" (?Death@CPlayer@@QAEXXZ) が関数 "private: void __thiscall CEnemy::Step(void)" (?Step@CEnemy@@AAEXXZ) で参照されました。
+C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe : fatal error LNK1120: 1 件の未解決の外部参照
