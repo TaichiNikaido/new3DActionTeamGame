@@ -190,6 +190,8 @@ void CPlayer::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
+	//アニメーションの取得
+	CAnimation * pAnimation = GetAnimation();
 	//もし生きていたら
 	if (m_State == STATE_LIVE)
 	{
@@ -201,6 +203,7 @@ void CPlayer::Update()
 			//もしスタン時間内だった場合
 			if (m_nStunTimeCount <= m_nStunTime)
 			{
+				pAnimation->SetAnimation(MOTION_STAN);
 				//移動量を0にする
 				m_Move = INITIAL_MOVE;
 			}
@@ -307,6 +310,8 @@ void CPlayer::Move(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
+	//アニメーションの取得
+	CAnimation * pAnimation = GetAnimation();
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
 	//もし死亡状態じゃないとき
@@ -335,6 +340,7 @@ void CPlayer::Move(void)
 					//タイトルBGMの再生
 					pSound->PlaySoundA(CSound::SOUND_LABEL_SE_PLAYER_JUMP);
 				}
+				pAnimation->SetAnimation(MOTION_JUMP);
 				//移動量を設定する
 				m_Move.y = m_fJumpPower;
 				//ジャンプ状態にする
@@ -350,11 +356,13 @@ void CPlayer::Move(void)
 			//もしスロウ状態じゃない場合
 			if (m_bSlowRun == false)
 			{
+				pAnimation->SetAnimation(MOTION_DUSH);
 				//オートランの速度にする
 				m_Move.z = m_fAutoRunSpeed;
 			}
 			else
 			{
+				pAnimation->SetAnimation(MOTION_DUSH);
 				//オートラン(スロウ)の速度にする
 				m_Move.z = m_fSlowSpeed;
 			}

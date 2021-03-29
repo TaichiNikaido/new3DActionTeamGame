@@ -23,6 +23,7 @@
 #include "mode_game.h"
 #include "byte_effect.h"
 #include "ui.h"
+#include "animation.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -41,6 +42,7 @@
 #define BYTE_SIZE	(D3DXVECTOR3(300.0f,300.0f,0.0f))									// 攻撃エフェクトサイズ
 #define WARNING_MARK_POS	(D3DXVECTOR3(SCREEN_WIDTH / 2,150.0f,0.0f))					// 位置
 #define WARNING_MARK_SIZE	(D3DXVECTOR3(200.0f,200.0f,0.0f))							// サイズ
+#define ATTACL_MOTIONCOUNT	(95)														//アタックモーション
 #define ATTACK_COUNT		(120)														// 攻撃カウント
 #define ATTACK1_RANGE_MIN	(-400)														// 攻撃1の最小値
 #define ATTACK1_RANGE_MAX	(-580)														// 攻撃1の最大値
@@ -220,6 +222,10 @@ void CEnemy::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
+
+	//アニメーションの取得
+	CAnimation * pAnimation = GetAnimation();
+
 	if (m_bStop == false)
 	{
 		//オートラン処理関数呼び出し
@@ -240,11 +246,17 @@ void CEnemy::Update()
 	{
 		//攻撃のクールタイムを加算する
 		m_nAttackCoolTimeCount++;
+		
 		//もしクールタイムが終わったら
 		if (m_nAttackCoolTimeCount == m_nAttackCoolTime)
 		{
+
 			// 危険マーク生成
 			Warning_Create();
+		}
+		if (m_nAttackCoolTimeCount == m_nAttackCoolTime + ATTACL_MOTIONCOUNT)
+		{
+			pAnimation->SetAnimation(MOTION_ATTACK);
 		}
 		if (m_nAttackCoolTimeCount == m_nAttackCoolTime + ATTACK_COUNT)
 		{
@@ -271,6 +283,8 @@ void CEnemy::AutoRun(void)
 {
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
+	//アニメーションの取得
+	CAnimation * pAnimation = GetAnimation();
 	//もし食事中だったら
 	if (m_bEat == true)
 	{
@@ -279,6 +293,7 @@ void CEnemy::AutoRun(void)
 		{
 			//移動量を0にする
 			m_Move = INITIAL_MOVE;
+			pAnimation->SetAnimation(MOTION_MEAL);
 			//食事カウントを加算する
 			m_nMeatEatTimeCount++;
 		}
@@ -288,6 +303,7 @@ void CEnemy::AutoRun(void)
 			m_bEat = false;
 			//食事カウントを0にする
 			m_nMeatEatTimeCount = MINIMUM_TIME;
+			pAnimation->SetAnimation(MOTION_DUSH);
 			//移動させる
 			m_Move.z = m_fAutoRunSpeed;
 		}
@@ -313,6 +329,8 @@ void CEnemy::Attack(void)
 	CPlayer *pPlayer = CGameMode::GetPlayer();
 	// プレイヤー位置
 	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
+	//アニメーションの取得
+	CAnimation * pAnimation = GetAnimation();
 	//攻撃をする
 	m_bAttack = true;
 	//クールタイムを0にする
@@ -320,6 +338,7 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_1の場合
 	if (Attack_Type == ATTACK_TYPE_1)
 	{
+		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_1, BYTE_SIZE);
 
@@ -335,6 +354,7 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_2の場合
 	if (Attack_Type == ATTACK_TYPE_2)
 	{
+		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_2, BYTE_SIZE);
 
@@ -351,6 +371,7 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_3の場合
 	if (Attack_Type == ATTACK_TYPE_3)
 	{
+		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_3, BYTE_SIZE);
 
