@@ -96,7 +96,7 @@ void CCamera::Update(void)
 		D3DXVECTOR3 PlayerPosition = pPlayer->GetPos();
 		//上方向ベクトルを指定する
 		m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y + 200.0f, PlayerPosition.z + m_fPlayerDistance);
+		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y + 300.0f, PlayerPosition.z + m_fPlayerDistance);
 		m_PositionR = PlayerPosition;
 	}
 }
