@@ -50,7 +50,7 @@
 #define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			//スタンエフェクト向き
 #define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//スタンエフェクトカラー
 #define STANEFFECT_LENGTH	(50.0f)								//スタンエフェクト距離
-#define JUMP_Z_VALUE		(8.0f)
+#define JUMP_Z_VALUE		(9.5f)
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -268,8 +268,6 @@ void CPlayer::Input(void)
 	}
 	//ゲームモードの取得
 	CGameMode * pGameMode = CManager::GetGameMode();
-	//プレイヤーが移動していないとき
-	//m_Move = INITIAL_MOVE;
 	//キーが押されていない場合
 	m_Input = INPUT_NONE;
 	//左移動処理
