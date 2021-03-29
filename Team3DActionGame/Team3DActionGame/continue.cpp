@@ -83,6 +83,9 @@ HRESULT CContinue::Init(void)
 //=============================================================================
 void CContinue::Uninit(void)
 {
+	m_pContinueBG->Uninit();
+	m_pContinueLogo->Uninit();
+	m_pContinueButtonManager->Uninit();
 	//”jŠüˆ—ŠÖ”ŒÄ‚Ño‚µ
 	Release();
 }
@@ -106,7 +109,7 @@ void CContinue::Draw(void)
 //=============================================================================
 void CContinue::CreateAll(void)
 {
-	CContinueBG::Create();
-	CContinueLogo::Create();
-	CContinueButtonManager::Create();
+	m_pContinueBG = CContinueBG::Create();
+	m_pContinueLogo = CContinueLogo::Create();
+	m_pContinueButtonManager = CContinueButtonManager::Create();
 }

@@ -25,6 +25,8 @@ class CPlayer;
 class CEnemy;
 class CUi;
 class CTutorialBG;
+class CContinue;
+
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
@@ -38,9 +40,11 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	static void SetContinue(CContinue * pContinue) { m_pContinue = pContinue; }
 	static CCamera * GetCamera(void) { return m_pCamera; }
 	static CPlayer * GetPlayer(void) { return m_pPlayer; }
 	static CEnemy * GetEnemy(void) { return m_pEnemy; }
+	static CContinue * GetContinue(void) { return m_pContinue; }
 private:
 	void InitCreateAll(void);
 	void UpdateCreateAll(void);
@@ -49,6 +53,7 @@ private:
 	static CEnemy * m_pEnemy;	//敵のポインタ
 	static CUi * m_pUi;			//UIのポインタ
 	CLight * m_pLight;			//ライトのポインタ
+	static CContinue * m_pContinue;
 	CTutorialBG * m_pTutorial;
 };
 #endif

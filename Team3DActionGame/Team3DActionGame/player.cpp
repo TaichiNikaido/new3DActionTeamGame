@@ -425,7 +425,7 @@ void CPlayer::Death(void)
 	//ダイアモンドの所持数を0にする
 	m_nDiamond = MINIMUM_DIAMOND;
 	//コンティニュー画面の生成
-	CContinue::Create();
+	CGameMode::SetContinue(CContinue::Create());
 }
 
 //=============================================================================

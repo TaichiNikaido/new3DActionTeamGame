@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "button_continue.h"
 #include "player.h"
+#include "continue.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -150,6 +151,7 @@ void CContinueButton::Draw(void)
 //=============================================================================
 void CContinueButton::Press(void)
 {
+	CContinue * pContinue = CGameMode::GetContinue();
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//サウンドの取得
@@ -164,6 +166,7 @@ void CContinueButton::Press(void)
 	if (pPlayer != NULL)
 	{
 		//プレイヤーのコンティニューをtrueにする
-		pPlayer->SetContinue(true);
+		pPlayer->SetbContinue(true);
 	}
+	pContinue->Uninit();
 }
