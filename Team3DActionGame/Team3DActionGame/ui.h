@@ -24,6 +24,7 @@
 #define MEAT_POS_X		(1800.0f)	// お肉のX座標
 #define MEAT_POS_Y		(400.0f)	// お肉のY座標
 #define MEAT_SIZE		(90.0f)		// お肉のサイズ
+#define MEAT_FLASH		(1)			// お肉が点滅をはじめる個数
 
 // WARNING
 #define WARNING_POS_X	(640.0f)	// WARNINGのX座標
@@ -61,6 +62,7 @@ public:
 	void Draw(void);
 
 	void Flashing(void);
+	void MeatFlash(void);
 
 private:
 	static LPDIRECT3DTEXTURE9 m_apTexture[UITYPE_MAX];
@@ -71,6 +73,8 @@ private:
 	UITYPE		m_type;		// ポリゴンのタイプ
 	int m_nColCounter;		// カラーのカウンター
 	int m_nEraseCounter;	// 消滅のカウンター
+	int m_nMeatColCounter;	// 肉のカラーカウンター
+	int m_nMeat;			// 肉の数
 };
 
 #endif // !_UI_H_

@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "mode_game.h"
+#include "player.h"
 
 //================================================
 // 静的メンバ変数宣言
@@ -91,6 +92,8 @@ CUi::CUi(int nPriority) :CScene2d(nPriority)
 	m_type = UITYPE_NONE;							// タイプ
 	m_nColCounter = 0;								// カウンター
 	m_nEraseCounter = 0;							// 使用しているかどうか
+	m_nMeatColCounter = 0;							// 肉のカウンター
+	m_nMeat = 0;									// 肉の数
 }
 
 //================================================
@@ -157,6 +160,9 @@ void CUi::Update(void)
 
 	// WARNINGを点滅させる処理
 	Flashing();
+
+	// お肉を点滅させる処理
+	MeatFlash();
 }
 
 //================================================
@@ -200,6 +206,53 @@ void CUi::Flashing(void)
 			// 終了処理
 			Uninit();
 			return;
+		}
+	}
+
+	// 色の設定
+	SetColor(col);
+}
+
+//================================================
+// 肉を赤く点滅させる処理
+//================================================
+void CUi::MeatFlash(void)
+{
+	// プレイヤー情報の取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+
+	// カラーの情報を取得
+	D3DXCOLOR col = GetColor();
+
+	//もしプレイヤーのポインタがNULLじゃない場合
+	if (pPlayer != NULL)
+	{
+		//プレイヤーの肉の数を取得する
+		m_nMeat = pPlayer->GetMeat();
+	}
+
+	// UIタイプが肉なら
+	if (m_type == UITYPE_MEAT)
+	{
+		if (m_nMeat == MEAT_FLASH)
+		{
+			// 毎フレームごとにカウンターを増やす
+			m_nMeatColCounter++;
+
+			if (m_nMeatColCounter == WARNING_COL_IN)
+			{
+				// gとbの色を付ける
+				col.g = 1.0f;
+				col.b = 1.0f;
+			}
+			else if (m_nMeatColCounter == WARNING_COL_OUT)
+			{
+				// gとbの色を消す
+				col.g = 0.0f;
+				col.b = 0.0f;
+				// カウンターを初期値へ
+				m_nMeatColCounter = 0;
+			}
 		}
 	}
 
