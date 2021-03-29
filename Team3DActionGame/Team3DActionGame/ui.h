@@ -16,14 +16,14 @@
 #define UI_TYPE			(3)		// UIの種類
 
 // ダイヤ
-#define DAIYA_POS_X		(1800.0f)	// ダイヤのX座標
+#define DAIYA_POS_X		(1805.0f)	// ダイヤのX座標
 #define DAIYA_POS_Y		(250.0f)	// ダイヤのY座標
 #define DAIYA_SIZE		(90.0f)		// ダイヤのサイズ
 
 // お肉
-#define MEAT_POS_X		(1800.0f)	// お肉のX座標
-#define MEAT_POS_Y		(400.0f)	// お肉のY座標
-#define MEAT_SIZE		(90.0f)		// お肉のサイズ
+#define MEAT_POS_X		(1805.0f)	// お肉のX座標
+#define MEAT_POS_Y		(350.0f)	// お肉のY座標
+#define MEAT_SIZE		(120.0f)		// お肉のサイズ
 #define MEAT_FLASH		(1)			// お肉が点滅をはじめる個数
 
 // WARNING

@@ -20,8 +20,8 @@
 //================================================
 #define MEATE_MAX_DIGITS	(2)			// 肉の最大桁数
 #define MEAT_NUMBER_POS_X	(1790.0f)	// 肉の所持数のX座標
-#define MEAT_NUMBER_POS_Y	(400.0f)	// 肉の所持数のY座標
-#define MEAT_NUMBER_SIZE	(40.0f)		// 肉の所持数のサイズ
+#define MEAT_NUMBER_POS_Y	(350.0f)	// 肉の所持数のY座標
+#define MEAT_NUMBER_SIZE	(35.0f)		// 肉の所持数のサイズ
 #define MEAT_POSSESSION		(3)			// 肉の初期の数
 
 //================================================

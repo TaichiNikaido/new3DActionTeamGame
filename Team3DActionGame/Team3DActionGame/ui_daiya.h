@@ -21,7 +21,7 @@
 #define DAIYA_MAX_DIGITS	(2)			// 最大桁数
 #define DAIYA_NUMBER_POS_X	(1790.0f)	// ダイヤの所持数のX座標
 #define DAIYA_NUMBER_POS_Y	(250.0f)	// ダイヤの所持数のY座標
-#define DAIYA_NUMBER_SIZE	(40.0f)		// ダイヤの所持数のサイズ
+#define DAIYA_NUMBER_SIZE	(35.0f)		// ダイヤの所持数のサイズ
 
 //================================================
 //クラス宣言
