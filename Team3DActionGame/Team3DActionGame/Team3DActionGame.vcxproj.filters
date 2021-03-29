@@ -243,6 +243,9 @@
     <ClCompile Include="continue.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
+    <ClCompile Include="needle.cpp">
+      <Filter>ソース ファイル\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bg_continue.h">
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="continue.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="needle.h">
+      <Filter>ヘッダー ファイル\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
