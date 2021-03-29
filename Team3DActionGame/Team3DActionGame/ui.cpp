@@ -58,7 +58,7 @@ HRESULT CUi::Load(void)
 
 	// 警報
 	D3DXCreateTextureFromFile(pDevice,
-		"Data/Texture/WinMark.png", //ファイルの読み込み
+		"Data/Texture/Warning_Mark.png", //ファイルの読み込み
 		&m_apTexture[UITYPE_WARNING]);
 
 	return S_OK;

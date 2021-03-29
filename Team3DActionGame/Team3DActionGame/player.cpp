@@ -465,6 +465,8 @@ void CPlayer::Death(void)
 	m_nDiamond = MINIMUM_DIAMOND;
 	//コンティニュー画面の生成
 	CGameMode::SetContinue(CContinue::Create());
+	//ヒット状態をやめる
+	m_bHit = false;
 }
 
 //=============================================================================
@@ -477,6 +479,8 @@ void CPlayer::Continue(void)
 	m_bContinue = false;
 	//肉の所持数を回復させる
 	m_nMeat = m_nMaxMeat;
+	//体力を回復させる
+	m_nLife = m_nMeat + 1;
 	//チェックポイントに戻す
 	Position = m_ContinuePosition;
 	//位置を設定する
