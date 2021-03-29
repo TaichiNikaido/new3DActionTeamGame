@@ -76,6 +76,8 @@ void CNeedle::Update(void)
 
 	if (playerPos.x >= pos.x - COLLISION_SIZE_NEEDLE.x / 2 &&
 		playerPos.x <= pos.x + COLLISION_SIZE_NEEDLE.x / 2 &&
+		playerPos.y >= pos.y - COLLISION_SIZE_NEEDLE.y / 2 &&
+		playerPos.y <= pos.y + COLLISION_SIZE_NEEDLE.y / 2 &&
 		playerPos.z >= pos.z - COLLISION_SIZE_NEEDLE.z / 2 &&
 		playerPos.z <= pos.z + COLLISION_SIZE_NEEDLE.z / 2)
 	{

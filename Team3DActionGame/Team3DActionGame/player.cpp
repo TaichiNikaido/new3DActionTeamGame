@@ -50,7 +50,7 @@
 #define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			//スタンエフェクト向き
 #define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//スタンエフェクトカラー
 #define STANEFFECT_LENGTH	(50.0f)								//スタンエフェクト距離
-
+#define JUMP_Z_VALUE		(8.0f)
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -269,7 +269,7 @@ void CPlayer::Input(void)
 	//ゲームモードの取得
 	CGameMode * pGameMode = CManager::GetGameMode();
 	//プレイヤーが移動していないとき
-	m_Move = INITIAL_MOVE;
+	//m_Move = INITIAL_MOVE;
 	//キーが押されていない場合
 	m_Input = INPUT_NONE;
 	//左移動処理
@@ -314,6 +314,12 @@ void CPlayer::Move(void)
 	CAnimation * pAnimation = GetAnimation();
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
 	//もし死亡状態じゃないとき
 	if (m_State != STATE_DEATH)
 	{
@@ -342,7 +348,7 @@ void CPlayer::Move(void)
 				}
 				pAnimation->SetAnimation(MOTION_JUMP);
 				//移動量を設定する
-				m_Move.y = m_fJumpPower;
+				m_Move.y += m_fJumpPower;
 				//ジャンプ状態にする
 				m_bJump = true;
 			}
@@ -365,6 +371,10 @@ void CPlayer::Move(void)
 				pAnimation->SetAnimation(MOTION_DUSH);
 				//オートラン(スロウ)の速度にする
 				m_Move.z = m_fSlowSpeed;
+			}
+			if (m_bJump == true)
+			{
+				m_Move.z += JUMP_Z_VALUE;
 			}
 		}
 	}
@@ -421,13 +431,14 @@ void CPlayer::Gravity(void)
 	//もし位置が初期位置より下にいったら
 	if (Position.y <= INITIAL_POSITION.y)
 	{
+		m_Move = INITIAL_MOVE;
 		//初期位置に戻す
 		Position.y = INITIAL_POSITION.y;
 		//ジャンプ状態をやめる
 		m_bJump = false;
 	}
 	//重力をかける
-	m_Move.y = m_fGravity;
+	m_Move.y += m_fGravity;
 	//位置更新
 	Position.y += m_Move.y;
 	//位置を設定する

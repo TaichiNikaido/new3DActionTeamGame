@@ -51,7 +51,7 @@
 #define ATTACK2_RANGE_MAX	(-780)														// 攻撃2の最大値
 #define ATTACK3_RANGE_MIN	(-780)														// 攻撃3の最小値
 #define ATTACK3_RANGE_MAX	(-980)														// 攻撃3の最大値
-
+#define STEP_SIZE			(200.0f)													// 踏みつぶしのサイズ
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -349,7 +349,6 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_1の場合
 	if (Attack_Type == ATTACK_TYPE_1)
 	{
-		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_1, BYTE_SIZE);
 
@@ -365,7 +364,6 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_2の場合
 	if (Attack_Type == ATTACK_TYPE_2)
 	{
-		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_2, BYTE_SIZE);
 
@@ -382,7 +380,6 @@ void CEnemy::Attack(void)
 	// ATTACK_TYPE_3の場合
 	if (Attack_Type == ATTACK_TYPE_3)
 	{
-		//pAnimation->SetAnimation(MOTION_ATTACK);
 		// プレイヤーに攻撃をする
 		CByte_Effect::ByteEffect_Create(BYTE_POS_3, BYTE_SIZE);
 
@@ -440,7 +437,7 @@ void CEnemy::Step(void)
 	// 位置取得
 	D3DXVECTOR3 pos = GetPos();
 	// プレイヤーの位置が敵の位置より低くなった場合
-	if (PlayerPos.z <= pos.z)
+	if (PlayerPos.z <= pos.z - STEP_SIZE)
 	{
 		// ヒット
 		pPlayer->Death();
