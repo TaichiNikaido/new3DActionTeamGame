@@ -25,7 +25,7 @@
 class CModelHimiya : public CScene
 {
 public:
-    CModelHimiya();
+    CModelHimiya(int nPriority = OBJTYPE_DEFAULT);
     virtual ~CModelHimiya();
 
     virtual HRESULT Init(void);

@@ -83,6 +83,8 @@ public:
 	void AddDiamond(int nValue) { m_nDiamond += nValue; }
 	void SetbContinue(bool bContinue) { m_bContinue = bContinue; }
 	void SetbSlow(bool bSlowRun) { m_bSlowRun = bSlowRun; }
+	void SetbStop(bool bStop) { m_bStop = bStop; }
+	void SetbContinuePositionSave(bool bContinuePositionSave) { m_bContinuePositionSave = bContinuePositionSave; }
 	int GetMeat(void) { return m_nMeat; }
 	int GetDiamond(void) { return m_nDiamond; }
 	bool GetbHit(void) { return m_bHit; }
@@ -92,7 +94,6 @@ public:
 private:
 	void Input(void);
 	void Move(void);
-	void AutoRun(void);
 	void Gravity(void);
 	void Death(void);
 	void Continue(void);
@@ -103,6 +104,7 @@ private:
 	static DWORD m_nNumMat[PARTS_MAX];
 	D3DXVECTOR3 m_Size;										//サイズ
 	D3DXVECTOR3 m_Move;										//移動量
+	D3DXVECTOR3 m_ContinuePosition;							//コンティニューするポジション
 	int m_nMeat;											//肉の所持数
 	int m_nMaxMeat;											//肉の最大数
 	int m_nDiamond;											//ダイヤモンドの所持数
@@ -117,6 +119,8 @@ private:
 	bool m_bJump;											//ジャンプしたかどうが
 	bool m_bContinue;										//コンティニューするか
 	bool m_bSlowRun;										//スロウにする
+	bool m_bStop;											//停止するか
+	bool m_bContinuePositionSave;							//コンティニューする位置を保存するか
 	STATE m_State;											//状態
 	INPUT m_Input;											//入力
 };

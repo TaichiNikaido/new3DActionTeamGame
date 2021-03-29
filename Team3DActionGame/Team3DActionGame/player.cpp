@@ -28,6 +28,7 @@
 #include "continue.h"
 #include "animation.h"
 #include "meat.h"
+#include "wood.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -64,6 +65,7 @@ CPlayer::CPlayer()
 {
 	m_Size = INITIAL_SIZE;											//サイズ
 	m_Move = INITIAL_MOVE;											//移動量
+	m_ContinuePosition = INITIAL_POSITION;							//コンティニューする位置
 	m_nMeat = MINIMUM_MEAT;											//肉の所持数
 	m_nMaxMeat = MINIMUM_MEAT;										//肉の最大数
 	m_nDiamond = MINIMUM_DIAMOND;									//ダイアモンドの所持数
@@ -78,6 +80,8 @@ CPlayer::CPlayer()
 	m_bJump = false;												//ジャンプしたかどうか
 	m_bContinue = false;											//コンティニューするかどうか
 	m_bSlowRun = false;												//スロウにするか
+	m_bStop = false;												//停止するか
+	m_bContinuePositionSave = false;								//コンティニューする位置を保存するか
 	m_State = STATE_NONE;											//状態
 	m_Input = INPUT_NONE;											//入力情報
 }
@@ -211,8 +215,11 @@ void CPlayer::Update()
 		{
 			//入力処理関数呼び出し
 			Input();
-			//オートラン処理関数呼び出し
-			AutoRun();
+			//移動処理関数呼び出し
+			Move();
+
+				////オートラン処理関数呼び出し
+				//AutoRun();
 		}
 	}
 	//重力処理関数呼び出し
@@ -260,31 +267,28 @@ void CPlayer::Input(void)
 	CGameMode * pGameMode = CManager::GetGameMode();
 	//プレイヤーが移動していないとき
 	m_Move = INITIAL_MOVE;
+	//キーが押されていない場合
+	m_Input = INPUT_NONE;
 	//左移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_A) || lpDIDevice != NULL &&js.lX == -1000)
 	{
 		//入力キー情報を左にする
 		m_Input = INPUT_LEFT;
-
-		//移動処理関数呼び出し
-		Move();
 	}
 	//右移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_D) || lpDIDevice != NULL &&js.lX == 1000)
 	{
 		//入力キー情報を右にする
 		m_Input = INPUT_RIGHT;
-		//移動処理関数呼び出し
-		Move();
 	}
 	//ジャンプ処理関数
 	if (pKeyboard->GetKeyboardTrigger(DIK_SPACE) || pJoystick->GetJoystickTrigger(JS_A))
 	{
 		//入力キー情報をスペースにする
 		m_Input = INPUT_SPACE;
-		//移動処理関数呼び出し
-		Move();
 	}
+
+	//==================================================================================
 	if (pKeyboard->GetKeyboardTrigger(DIK_X))
 	{
 		Hit();
@@ -293,6 +297,7 @@ void CPlayer::Input(void)
 	{
 		Death();
 	}
+	//==================================================================================
 }
 
 //=============================================================================
@@ -339,32 +344,61 @@ void CPlayer::Move(void)
 		default:
 			break;
 		}
+		//もし停止しないなら
+		if (m_bStop == false)
+		{
+			//もしスロウ状態じゃない場合
+			if (m_bSlowRun == false)
+			{
+				//オートランの速度にする
+				m_Move.z = m_fAutoRunSpeed;
+			}
+			else
+			{
+				//オートラン(スロウ)の速度にする
+				m_Move.z = m_fSlowSpeed;
+			}
+		}
 	}
 	//位置更新
 	Position.x += m_Move.x;
 	Position.y += m_Move.y;
-	//位置を設定する
-	SetPos(Position);
-}
-
-//=============================================================================
-// オートラン処理関数
-//=============================================================================
-void CPlayer::AutoRun(void)
-{
-	//位置を取得する
-	D3DXVECTOR3 Position = GetPos();
-	//移動させる
-	if (m_bSlowRun == false)
-	{
-		m_Move.z = m_fAutoRunSpeed;
-	}
-	else
-	{
-		m_Move.z = m_fSlowSpeed;
-	}
-	//位置更新
 	Position.z += m_Move.z;
+
+	//もしコンティニューする位置を保存するなら
+	if (m_bContinuePositionSave == true)
+	{
+		//コンティニューする位置を保存する
+		m_ContinuePosition = Position;
+	}
+
+	CScene *pScene = CScene::GetTopScene(OBJTYPE_WOOD);
+	bool bStop = false;
+
+	while (pScene != NULL)
+	{
+		CScene *pNextScene = pScene->GetNextScene();
+
+		CWood *pWood = (CWood*)pScene;
+		D3DXVECTOR3 woodPos = pWood->GetPos();
+
+		if (Position.x + COLLISION_SIZE_PLAYER.x / 2 >= woodPos.x - COLLISION_SIZE_WOOD.x / 2 &&
+			Position.x - COLLISION_SIZE_PLAYER.x / 2 <= woodPos.x + COLLISION_SIZE_WOOD.x / 2 &&
+			Position.z + COLLISION_SIZE_PLAYER.z / 2 >= woodPos.z - COLLISION_SIZE_WOOD.z / 2 &&
+			Position.z - COLLISION_SIZE_PLAYER.z / 2 <= woodPos.z + COLLISION_SIZE_WOOD.z / 2 &&
+			!m_bJump)
+		{
+			SetbStop(true);
+			bStop = true;
+			break;
+		}
+		else
+		{
+			SetbStop(false);
+			pScene = pNextScene;
+		}
+	}
+
 	//位置を設定する
 	SetPos(Position);
 }
@@ -433,12 +467,14 @@ void CPlayer::Death(void)
 //=============================================================================
 void CPlayer::Continue(void)
 {
+	D3DXVECTOR3 Position = GetPos();
 	//コンティニューをやめる
 	m_bContinue = false;
 	//肉の所持数を回復させる
 	m_nMeat = m_nMaxMeat;
 	//チェックポイントに戻す
-	//
+	Position = m_ContinuePosition;
+	SetPos(Position);
 	//生存状態にする
 	m_State = STATE_LIVE;
 }

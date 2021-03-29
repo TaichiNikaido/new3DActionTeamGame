@@ -25,6 +25,7 @@ public:
 		OBJTYPE_FADE,
 		OBJTYPE_TUTORIAL,
 		OBJTYPE_PLAYER,
+		OBJTYPE_WOOD,
 		OBJTYPE_MAX
 	}OBJTYPE;
 
@@ -48,6 +49,9 @@ public:
 	static void SetUpdateStop(bool bUpdateStop);
 
 	static bool GetUpdateStop(void) { return m_bUpdateStop; }
+
+	CScene * GetNextScene(void) { return m_pNext; }
+	CScene * GetTopScene(int nPriority) { return m_pTop[nPriority]; }
 
 protected:
 	void Release(void);

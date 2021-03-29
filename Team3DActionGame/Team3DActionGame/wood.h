@@ -27,7 +27,7 @@
 class CWood : public CModelHimiya
 {
 public:
-	CWood();
+	CWood(int nPriority = OBJTYPE_WOOD);
 	~CWood();
 	HRESULT Init(void);
 	void Uninit(void);
@@ -41,6 +41,7 @@ private:
 	static LPD3DXMESH				m_pMesh;
 	static LPD3DXBUFFER				m_pBuffMat;
 	static DWORD					m_nNumMat;
+	bool							m_bHit;
 	D3DXVECTOR3						m_rot;
 };
 

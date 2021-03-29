@@ -26,7 +26,7 @@ LPDIRECT3DTEXTURE9 CDia::m_pTexture = NULL;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CDia::CDia()
+CDia::CDia(int nPrirority) : CModelHimiya(nPrirority)
 {
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }

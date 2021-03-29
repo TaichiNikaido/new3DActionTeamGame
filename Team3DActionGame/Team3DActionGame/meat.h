@@ -27,7 +27,7 @@
 class CMeat : public CModelHimiya
 {
 public:
-	CMeat();
+	CMeat(int nPriority = OBJTYPE_DEFAULT);
 	~CMeat();
 	HRESULT Init(void);
 	void Uninit(void);

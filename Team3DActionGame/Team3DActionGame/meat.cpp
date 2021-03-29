@@ -25,7 +25,7 @@ LPDIRECT3DTEXTURE9 CMeat::m_pTexture = NULL;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CMeat::CMeat()
+CMeat::CMeat(int nPriority) : CModelHimiya(nPriority)
 {
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }

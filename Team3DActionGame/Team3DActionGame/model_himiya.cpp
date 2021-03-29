@@ -19,7 +19,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CModelHimiya::CModelHimiya()
+CModelHimiya::CModelHimiya(int nPriority) : CScene(nPriority)
 {
     m_pTexture = NULL;
     m_pBuffMat = NULL;

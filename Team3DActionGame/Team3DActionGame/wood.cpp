@@ -25,9 +25,10 @@ LPDIRECT3DTEXTURE9 CWood::m_pTexture = NULL;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CWood::CWood()
+CWood::CWood(int nPriority) : CModelHimiya(nPriority)
 {
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_bHit = false;
 }
 
 //=============================================================================
@@ -68,21 +69,6 @@ void CWood::Uninit(void)
 //=============================================================================
 void CWood::Update(void)
 {
-	CPlayer *pPlayer = CGameMode::GetPlayer();
-	D3DXVECTOR3 playerPos = pPlayer->GetPos();
-	D3DXVECTOR3 pos = GetPos();
-	D3DXVECTOR3 rot = GetRot();
-	bool bJump = pPlayer->GetIsJump();
-
-	if (playerPos.x + COLLISION_SIZE_PLAYER.x / 2 >= pos.x - COLLISION_SIZE_WOOD.x / 2 &&
-		playerPos.x - COLLISION_SIZE_PLAYER.x / 2 <= pos.x + COLLISION_SIZE_WOOD.x / 2 &&
-		playerPos.z + COLLISION_SIZE_PLAYER.z / 2 >= pos.z - COLLISION_SIZE_WOOD.z / 2 &&
-		playerPos.z - COLLISION_SIZE_PLAYER.z / 2 <= pos.z + COLLISION_SIZE_WOOD.z / 2 &&
-		!bJump)
-	{
-		// プレイヤーを止める
-	}
-
 	CModelHimiya::Update();
 }
 
@@ -143,5 +129,6 @@ CWood * CWood::Create(D3DXVECTOR3 pos)
 	pCube = new CWood;
 	pCube->Init();
 	pCube->SetPos(pos);
+	pCube->SetObjType(OBJTYPE_WOOD);
 	return pCube;
 }

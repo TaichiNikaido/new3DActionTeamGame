@@ -27,7 +27,7 @@
 class CDia : public CModelHimiya
 {
 public:
-	CDia();
+	CDia(int nPriority = OBJTYPE_DEFAULT);
 	~CDia();
 	HRESULT Init(void);
 	void Uninit(void);

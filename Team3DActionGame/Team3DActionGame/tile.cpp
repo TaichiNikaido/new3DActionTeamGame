@@ -114,14 +114,21 @@ void CTile::Update(void)
 			break;
 		case TILE_CHECK_POINT:
 			// チェックポイント更新
+			if (pPlayer != NULL)
+			{
+				pPlayer->SetbContinuePositionSave(true);
+			}
 			break;
 		case TILE_GOAL:
+			//リザルトに移動
+			CManager::StartFade(CManager::MODE_RESULT);
 			// ゴール（やったー）
 			break;
 		default:
 			if (pPlayer != NULL)
 			{
 				pPlayer->SetbSlow(false);
+				pPlayer->SetbContinuePositionSave(false);
 			}
 			break;
 		}
