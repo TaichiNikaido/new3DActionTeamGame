@@ -22,15 +22,15 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SCRIPT_PASS ("Data/Script/EnemyData.txt")				//スクリプトパス
+#define SCRIPT_PASS ("Data/Script/EnemyData.txt")										//スクリプトパス
 #define TEXTURE_PASS ("Data//Texture//dinosaur-skin-texture-600w-256919422.png")		// テクスチャパス
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
-#define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//回転の初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//移動量の初期値
-#define MINIMUM_TIME (0)										//時間の初期値
-#define INITIAL_MOVE_SPEED (0.0f)								//移動速度の初期値
+#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))									//位置の初期値
+#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))										//サイズの初期値
+#define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))							//衝突判定用サイズの初期値
+#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))									//回転の初期値
+#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))										//移動量の初期値
+#define MINIMUM_TIME (0)																//時間の初期値
+#define INITIAL_MOVE_SPEED (0.0f)														//移動速度の初期値
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
