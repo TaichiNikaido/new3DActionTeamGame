@@ -16,7 +16,7 @@ SIZE = 1.0 1.0 1.0					# サイズ
 COLLISION_SIZE = 0.0 0.0 0.0		# 衝突判定用サイズ
 ROT = 0.0 180.0 0.0					# 回転
 MeatEatTime = 120					# 肉を食べる時間
-AttackCoolTime = 180				# 攻撃のクールタイム
+AttackCoolTime = 300				# 攻撃のクールタイム
 AutoRunSpeed = 5.0					# オートランの速度
 
 END_PARAMETER_SET
