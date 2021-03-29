@@ -23,11 +23,8 @@
 #include "mode_game.h"
 #include "byte_effect.h"
 #include "ui.h"
-<<<<<<< HEAD
 #include "animation.h"
-=======
 
->>>>>>> be194ae6da476a4af7be5e6ebf730695a2c978fd
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -225,9 +222,10 @@ void CEnemy::Uninit()
 //=============================================================================
 void CEnemy::Update()
 {
+	//プレイヤーの取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-
 	//アニメーションの取得
 	CAnimation * pAnimation = GetAnimation();
 
@@ -265,8 +263,16 @@ void CEnemy::Update()
 		}
 		if (m_nAttackCoolTimeCount == m_nAttackCoolTime + ATTACK_COUNT)
 		{
-			// 攻撃処理
-			Attack();
+			//もしプレイヤーのポインタがNULLじゃない場合
+			if (pPlayer != NULL)
+			{
+				//もしプレイヤーの状態が死亡状態じゃない場合
+				if (pPlayer->GetState() != CPlayer::STATE_DEATH)
+				{
+					// 攻撃処理
+					Attack();
+				}
+			}
 		}
 	}
 }
@@ -431,10 +437,8 @@ void CEnemy::Step(void)
 	CPlayer *pPlayer = CGameMode::GetPlayer();
 	// プレイヤー位置
 	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
-
 	// 位置取得
 	D3DXVECTOR3 pos = GetPos();
-
 	// プレイヤーの位置が敵の位置より低くなった場合
 	if (PlayerPos.z <= pos.z)
 	{
@@ -464,6 +468,10 @@ void CEnemy::Continue(void)
 	Position = m_ContinuePosition;
 	//位置を設定する
 	SetPos(Position);
+	//攻撃時間を初期化する
+	m_nAttackCoolTimeCount = MINIMUM_TIME;
+	//攻撃状態を止める
+	m_bAttack = false;
 	//コンティニューをやめる
 	m_bContinue = false;
 	//停止をやめる

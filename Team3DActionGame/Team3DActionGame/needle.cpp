@@ -13,6 +13,7 @@
 #include "renderer.h"
 #include "player.h"
 #include "mode_game.h"
+#include "player.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -79,6 +80,7 @@ void CNeedle::Update(void)
 		playerPos.z <= pos.z + COLLISION_SIZE_NEEDLE.z / 2)
 	{
 		// プレイヤー死亡
+		pPlayer->Death();
 		Uninit();
 	}
 	else
