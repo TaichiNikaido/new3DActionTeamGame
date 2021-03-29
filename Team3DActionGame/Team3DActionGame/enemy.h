@@ -73,13 +73,14 @@ public:
 	void SetbEat(bool bEat) { m_bEat = bEat; }
 	void SetbStop(bool bStop) { m_bStop = bStop; }
 	void SetbContinue(bool bContinue) { m_bContinue = bContinue; }
+	void SetbContinuePositionSave(bool bContinuePositionSave) { m_bContinuePositionSave = bContinuePositionSave; }
 private:
 	void AutoRun(void);
 	void Attack(void);
 	void Death(void);
 	void Continue(void);
 	void DataLoad(void);
-	static LPDIRECT3DTEXTURE9 m_apTexture[PARTS_MAX];			// テクスチャへのポインタ
+	static LPDIRECT3DTEXTURE9 m_apTexture[PARTS_MAX];		// テクスチャへのポインタ
 	static LPD3DXMESH m_pMesh[PARTS_MAX];
 	static LPD3DXBUFFER m_pBuffMat[PARTS_MAX];
 	static DWORD m_nNumMat[PARTS_MAX];
@@ -95,5 +96,6 @@ private:
 	bool m_bAttack;											//攻撃をしたか
 	bool m_bStop;											//停止するか
 	bool m_bContinue;										//コンティニューするか
+	bool m_bContinuePositionSave;							//コンティニューする位置を保存するか
 };
 #endif

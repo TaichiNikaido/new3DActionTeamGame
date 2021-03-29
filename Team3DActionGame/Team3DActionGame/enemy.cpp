@@ -58,6 +58,7 @@ CEnemy::CEnemy()
 	m_bAttack = false;								//攻撃をしたか
 	m_bStop = false;								//停止するか
 	m_bContinue = false;							//コンティニューするか
+	m_bContinuePositionSave = false;				//コンティニューする位置を保存するか
 }
 
 //=============================================================================
@@ -203,7 +204,6 @@ void CEnemy::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-
 	if (m_bStop == false)
 	{
 		//オートラン処理関数呼び出し
@@ -215,7 +215,6 @@ void CEnemy::Update()
 		//コンティニュー処理関数呼び出し
 		Continue();
 	}
-
 	//もし攻撃をしていない場合
 	if (m_bAttack == false)
 	{
@@ -270,6 +269,12 @@ void CEnemy::AutoRun(void)
 	}
 	//位置更新
 	Position += m_Move;
+	//もしコンティニューする位置を保存するなら
+	if (m_bContinuePositionSave == true)
+	{
+		//コンティニューする位置を保存する
+		m_ContinuePosition = Position;
+	}
 	//位置を設定する
 	SetPos(Position);
 }

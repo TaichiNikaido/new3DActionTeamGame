@@ -40,6 +40,7 @@
 #define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//回転の初期値
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//移動量の初期値
 #define MINIMUM_MEAT (0)										//肉の最小数
+#define MINIMUM_LIFE (0)										//体力
 #define MINIMUM_DIAMOND (0)										//ダイアモンドの最小数
 #define MINIMUM_STAN_TIME (0)									//スタン時間の最小値
 #define INITIAL_MOVE_SPEED (0.0f)								//移動速度の初期値							
@@ -71,6 +72,7 @@ CPlayer::CPlayer()
 	m_nDiamond = MINIMUM_DIAMOND;				//ダイアモンドの所持数
 	m_nStunTime = MINIMUM_STAN_TIME;			//スタン時間
 	m_nStunTimeCount = MINIMUM_STAN_TIME;		//スタン時間のカウント
+	m_nLife = MINIMUM_LIFE;						//体力
 	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;		//移動速度
 	m_fSlowSpeed = INITIAL_MOVE_SPEED;			//スロウ速度
 	m_fLeftRightSpeed = INITIAL_MOVE_SPEED;		//左右移動速度
@@ -432,15 +434,20 @@ void CPlayer::Hit(void)
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
 	//肉の所持数を減算する
-	m_nMeat--;
-	//肉を生成する
-	CMeat::Create(Position);
+	if (m_nMeat > MINIMUM_MEAT)
+	{
+		//肉を生成する
+		CMeat::Create(Position);
+		m_nMeat--;
+	}
+	//体力を減算する
+	m_nLife--;
 	//ヒットさせる
 	m_bHit = true;
 	//スタンエフェクトの生成
 	CStan_Effect::StanEffect_Create(Position, STANEFFECT_SIZE, STANEFFECT_ROT, STANEFFECT_COL, STANEFFECT_LENGTH);
 	//もし肉の所持数が0以下になったら
-	if (m_nMeat <= MINIMUM_MEAT)
+	if (m_nLife <= MINIMUM_MEAT)
 	{
 		//死亡処理関数呼び出し
 		Death();
@@ -589,6 +596,7 @@ void CPlayer::DataLoad(void)
 								sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nMaxMeat);
 								//肉の所持数を設定する
 								m_nMeat = m_nMaxMeat;
+								m_nLife = m_nMeat + 1;
 							}
 							//現在のテキストがStunTimeだったら
 							if (strcmp(aCurrentText, "StunTime") == 0)

@@ -30,11 +30,11 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CCamera * CGameMode::m_pCamera = NULL;	//カメラのポインタ
-CPlayer * CGameMode::m_pPlayer = NULL;	//プレイヤーのポインタ
-CEnemy * CGameMode::m_pEnemy = NULL;	//敵のポインタ
-CUi * CGameMode::m_pUi = NULL;			//UIのポインタ
-CContinue * CGameMode::m_pContinue = NULL;			//コンティニューのポインタ
+CCamera * CGameMode::m_pCamera = NULL;			//カメラのポインタ
+CPlayer * CGameMode::m_pPlayer = NULL;			//プレイヤーのポインタ
+CEnemy * CGameMode::m_pEnemy = NULL;			//敵のポインタ
+CUi * CGameMode::m_pUi = NULL;					//UIのポインタ
+CContinue * CGameMode::m_pContinue = NULL;		//コンティニューのポインタ
 
 //=============================================================================
 // コンストラクタ

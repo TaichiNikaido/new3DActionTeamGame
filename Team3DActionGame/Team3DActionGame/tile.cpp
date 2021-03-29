@@ -14,6 +14,7 @@
 #include "player.h"
 #include "mode_game.h"
 #include "player.h"
+#include "enemy.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -86,16 +87,18 @@ void CTile::Uninit(void)
 //=============================================================================
 void CTile::Update(void)
 {
-	// プレイヤーとの特殊タイルの処理
+	//プレイヤーを取得
 	CPlayer *pPlayer = CGameMode::GetPlayer();
+	//敵を取得する
+	CEnemy * pEnemy = CGameMode::GetEnemy();
+	//プレイヤーの位置を所得する
 	D3DXVECTOR3 playerPos = pPlayer->GetPos();
 	bool bJump = pPlayer->GetIsJump();
-
 	// タイルの上なら
 	if (playerPos.x >= m_pos.x - TILE_SIZE / 2 &&
 		playerPos.x <= m_pos.x + TILE_SIZE / 2 &&
 		playerPos.z >= m_pos.z - TILE_SIZE / 2 &&
-		playerPos.z <= m_pos.z + TILE_SIZE / 2 )
+		playerPos.z <= m_pos.z + TILE_SIZE / 2)
 	{
 		switch (m_type)
 		{
@@ -114,9 +117,17 @@ void CTile::Update(void)
 			break;
 		case TILE_CHECK_POINT:
 			// チェックポイント更新
+			//もしプレイヤーがNULLの場合
 			if (pPlayer != NULL)
 			{
+				//プレイヤーのコンティニューする位置を保存する
 				pPlayer->SetbContinuePositionSave(true);
+			}
+			//もし敵がNULLの場合
+			if (pEnemy != NULL)
+			{
+				//敵のコンティニューする位置を保存する
+				pEnemy->SetbContinuePositionSave(true);
 			}
 			break;
 		case TILE_GOAL:
@@ -130,27 +141,31 @@ void CTile::Update(void)
 				pPlayer->SetbSlow(false);
 				pPlayer->SetbContinuePositionSave(false);
 			}
+			if (pEnemy != NULL)
+			{
+				pEnemy->SetbContinuePositionSave(false);
+			}
 			break;
 		}
 	}
 
 	VERTEX_3D *pVtx;
 
-    m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-    pVtx[0].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
-    pVtx[1].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
-    pVtx[2].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
-    pVtx[3].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
+	pVtx[0].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
+	pVtx[1].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, TILE_SIZE / 2);
+	pVtx[2].pos = D3DXVECTOR3(-TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
+	pVtx[3].pos = D3DXVECTOR3(TILE_SIZE / 2, 0.0f, -TILE_SIZE / 2);
 
-    pVtx[0].tex = D3DXVECTOR2(m_TexLeftX, m_TexTopY);
-    pVtx[1].tex = D3DXVECTOR2(m_TexRightX, m_TexTopY);
-    pVtx[2].tex = D3DXVECTOR2(m_TexLeftX, m_TexBottomY);
-    pVtx[3].tex = D3DXVECTOR2(m_TexRightX, m_TexBottomY);
+	pVtx[0].tex = D3DXVECTOR2(m_TexLeftX, m_TexTopY);
+	pVtx[1].tex = D3DXVECTOR2(m_TexRightX, m_TexTopY);
+	pVtx[2].tex = D3DXVECTOR2(m_TexLeftX, m_TexBottomY);
+	pVtx[3].tex = D3DXVECTOR2(m_TexRightX, m_TexBottomY);
 
-    for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
-    {
-        pVtx[nCount].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
+	{
+		pVtx[nCount].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 		if (m_type != TILE_NEEDLE)
 		{
@@ -160,9 +175,9 @@ void CTile::Update(void)
 		{
 			pVtx[nCount].col = D3DCOLOR_RGBA(255, 255, 255, 0);
 		}
-    }
+	}
 
-    m_pVtxBuff->Unlock();
+	m_pVtxBuff->Unlock();
 }
 
 //=============================================================================

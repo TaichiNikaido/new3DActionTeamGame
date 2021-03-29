@@ -111,6 +111,7 @@ private:
 	int m_nDiamond;											//ダイヤモンドの所持数
 	int m_nStunTime;										//スタン時間
 	int m_nStunTimeCount;									//スタン時間のカウント
+	int m_nLife;											//体力
 	float m_fAutoRunSpeed;									//オートランの速度
 	float m_fSlowSpeed;										//スロウの速度
 	float m_fLeftRightSpeed;								//左右移動速度

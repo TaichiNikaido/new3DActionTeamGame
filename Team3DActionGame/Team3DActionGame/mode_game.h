@@ -26,6 +26,7 @@ class CEnemy;
 class CUi;
 class CTutorialBG;
 class CContinue;
+class CMeat;
 
 //*****************************************************************************
 // クラス定義
@@ -48,12 +49,12 @@ public:
 private:
 	void InitCreateAll(void);
 	void UpdateCreateAll(void);
-	static CCamera * m_pCamera;	//カメラのポインタ
-	static CPlayer * m_pPlayer;	//プレイヤーのポインタ
-	static CEnemy * m_pEnemy;	//敵のポインタ
-	static CUi * m_pUi;			//UIのポインタ
-	CLight * m_pLight;			//ライトのポインタ
+	static CCamera * m_pCamera;			//カメラのポインタ
+	static CPlayer * m_pPlayer;			//プレイヤーのポインタ
+	static CEnemy * m_pEnemy;			//敵のポインタ
+	static CUi * m_pUi;					//UIのポインタ
 	static CContinue * m_pContinue;
+	CLight * m_pLight;					//ライトのポインタ
 	CTutorialBG * m_pTutorial;
 };
 #endif
