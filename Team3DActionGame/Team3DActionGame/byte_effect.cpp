@@ -175,7 +175,7 @@ void CByte_Effect::Update(void)
 	// true�̏ꍇ
 	if (bEndByte == true)
 	{
-		CCircle_Particle::Effect_Create(m_SavePos);
+		CCircle_Particle::Effect_Create(pos);
 		Uninit();
 		return;
 	}

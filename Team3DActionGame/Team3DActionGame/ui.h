@@ -32,7 +32,7 @@
 #define WARNING_SIZE	(100.0f)	// WARNINGのサイズ
 #define WARNING_COL_IN	(5)			// 色の出てる時間
 #define WARNING_COL_OUT	(10)		// 色の消える時間
-#define WARNING_ERASE	(50)		// 出現時間
+#define WARNING_ERASE	(120)		// 出現時間
 
 //=============================================================================
 //クラス宣言

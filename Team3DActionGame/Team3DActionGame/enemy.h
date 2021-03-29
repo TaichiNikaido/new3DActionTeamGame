@@ -62,6 +62,15 @@ public:
 		MOTION_FALL,
 		MOTION_ATTACK
 	}MOTIONENEMY;
+	typedef enum
+	{
+		ATTACK_TYPE_NONE = -1,
+		ATTACK_TYPE_1,
+		ATTACK_TYPE_2,
+		ATTACK_TYPE_3,
+		ATTACK_TYPE_MAX
+	}ATTACK_TYPE;
+
 	static HRESULT Load(void);
 	static HRESULT LoadTexture(void);
 	static void Unload(void);
@@ -77,6 +86,8 @@ public:
 private:
 	void AutoRun(void);
 	void Attack(void);
+	void Warning_Create(void);
+	void Step(void);
 	void Death(void);
 	void Continue(void);
 	void DataLoad(void);
@@ -91,6 +102,7 @@ private:
 	int m_nMeatEatTimeCount;								//肉を食べる時間のカウント
 	int m_nAttackCoolTime;									//攻撃のクールタイム
 	int m_nAttackCoolTimeCount;								//攻撃のクールタイムカウント
+	ATTACK_TYPE Attack_Type;								//攻撃の種類
 	float m_fAutoRunSpeed;									//オートランの速度
 	bool m_bEat;											//食事をしてるかどうか
 	bool m_bAttack;											//攻撃をしたか

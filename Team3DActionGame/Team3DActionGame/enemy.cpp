@@ -19,7 +19,10 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene3d.h"
-
+#include "player.h"
+#include "mode_game.h"
+#include "byte_effect.h"
+#include "ui.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -32,6 +35,13 @@
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))										//移動量の初期値
 #define MINIMUM_TIME (0)																//時間の初期値
 #define INITIAL_MOVE_SPEED (0.0f)														//移動速度の初期値
+#define BYTE_POS_1	(D3DXVECTOR3(-400,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_POS_2	(D3DXVECTOR3(-600,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_POS_3	(D3DXVECTOR3(-800,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_SIZE	(D3DXVECTOR3(300.0f,300.0f,0.0f))									// 攻撃エフェクトサイズ
+#define WARNING_MARK_POS	(D3DXVECTOR3(SCREEN_WIDTH / 2,150.0f,0.0f))					// 位置
+#define WARNING_MARK_SIZE	(D3DXVECTOR3(200.0f,200.0f,0.0f))							// サイズ
+#define ATTACK_COUNT		(120)														// 攻撃カウント
 
 //*****************************************************************************
 // 静的メンバ変数宣言
@@ -59,6 +69,7 @@ CEnemy::CEnemy()
 	m_bStop = false;								//停止するか
 	m_bContinue = false;							//コンティニューするか
 	m_bContinuePositionSave = false;				//コンティニューする位置を保存するか
+	Attack_Type = ATTACK_TYPE_NONE;					// 攻撃の種類
 }
 
 //=============================================================================
@@ -214,6 +225,9 @@ void CEnemy::Update()
 	{
 		//コンティニュー処理関数呼び出し
 		Continue();
+
+		// 踏む処理
+		Step();
 	}
 	//もし攻撃をしていない場合
 	if (m_bAttack == false)
@@ -221,9 +235,14 @@ void CEnemy::Update()
 		//攻撃のクールタイムを加算する
 		m_nAttackCoolTimeCount++;
 		//もしクールタイムが終わったら
-		if (m_nAttackCoolTimeCount >= m_nAttackCoolTime)
+		if (m_nAttackCoolTimeCount == m_nAttackCoolTime)
 		{
-			//攻撃処理関数呼び出し
+			// 危険マーク生成
+			Warning_Create();
+		}
+		if (m_nAttackCoolTimeCount == m_nAttackCoolTime + ATTACK_COUNT)
+		{
+			// 攻撃処理
 			Attack();
 		}
 	}
@@ -284,16 +303,109 @@ void CEnemy::AutoRun(void)
 //=============================================================================
 void CEnemy::Attack(void)
 {
+	// プレイヤー取得
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	// プレイヤー位置
+	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
 	//攻撃をする
 	m_bAttack = true;
 	//クールタイムを0にする
 	m_nAttackCoolTimeCount = MINIMUM_TIME;
-	//プレイヤーに攻撃をする
+	// ATTACK_TYPE_1の場合
+	if (Attack_Type == ATTACK_TYPE_1)
+	{
+		// プレイヤーに攻撃をする
+		CByte_Effect::ByteEffect_Create(BYTE_POS_1, BYTE_SIZE);
 
-	//攻撃をやめる
-	m_bAttack = false;
+		// プレイヤーの位置が範囲内の場合
+		if (PlayerPos.x <= -400 && PlayerPos.x > -580)
+		{
+			// ヒット
+			pPlayer->Hit();
+		}
+		// 攻撃をやめる
+		m_bAttack = false;
+	}
+	// ATTACK_TYPE_2の場合
+	if (Attack_Type == ATTACK_TYPE_2)
+	{
+		// プレイヤーに攻撃をする
+		CByte_Effect::ByteEffect_Create(BYTE_POS_2, BYTE_SIZE);
+
+		// プレイヤーの位置が範囲内の場合
+		if (PlayerPos.x <= -580 && PlayerPos.x > -780)
+		{
+			// ヒット
+			pPlayer->Hit();
+		}
+
+		// 攻撃をやめる
+		m_bAttack = false;
+	}
+	// ATTACK_TYPE_3の場合
+	if (Attack_Type == ATTACK_TYPE_3)
+	{
+		// プレイヤーに攻撃をする
+		CByte_Effect::ByteEffect_Create(BYTE_POS_3, BYTE_SIZE);
+
+		// プレイヤーの位置が範囲内の場合
+		if (PlayerPos.x <= -780 && PlayerPos.x > -980)
+		{
+			// ヒット
+			pPlayer->Hit();
+		}
+
+		// 攻撃をやめる
+		m_bAttack = false;
+	}
 }
+//=============================================================================
+// 危険マーク生成処理関数
+//=============================================================================
+void CEnemy::Warning_Create(void)
+{
+	// プレイヤー取得
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	// プレイヤー位置
+	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
+	if (PlayerPos.x <= -400 && PlayerPos.x > -580)
+	{
+		// 攻撃タイプ
+		Attack_Type = ATTACK_TYPE_1;
+	}
+	if (PlayerPos.x <= -580 && PlayerPos.x > -780)
+	{
+		// 攻撃タイプ
+		Attack_Type = ATTACK_TYPE_2;
+	}
+	if (PlayerPos.x <= -780 && PlayerPos.x > -980)
+	{
+		// 攻撃タイプ
+		Attack_Type = ATTACK_TYPE_3;
+	}
+	// 危険マーク
+	CUi::Create(WARNING_MARK_POS, WARNING_MARK_SIZE, CUi::UITYPE_WARNING);
+}
+//=============================================================================
+// プレイヤーを踏む処理関数
+//=============================================================================
+void CEnemy::Step(void)
+{
+	// プレイヤー取得
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	// プレイヤー位置
+	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
 
+	// 位置取得
+	D3DXVECTOR3 pos = GetPos();
+
+	// プレイヤーの位置が敵の位置より低くなった場合
+	if (PlayerPos.z <= pos.z)
+	{
+		// ヒット
+		pPlayer->Hit();
+	}
+}
 //=============================================================================
 // 死亡処理関数
 //=============================================================================

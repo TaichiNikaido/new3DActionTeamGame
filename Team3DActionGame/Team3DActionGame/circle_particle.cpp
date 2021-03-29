@@ -15,12 +15,12 @@
 #define SUB_COLOR_VALUE (0.05f)											// 色減算値
 #define MIN_COLOR_VALUE	(0.0f)											// 色の最小値
 #define RANDOM_ANGLE	(180)											// 角度ランダム
-#define RANDOM_POS		(200)											// 位置ランダム
+#define RANDOM_POS		(100)											// 位置ランダム
 #define MUT_2			(2)												// 2倍
 #define DEVEIDE			(2)												// 割る２
 #define MAX_PARTICLE	(10)											// パーティクルの最大数
 #define POS				(D3DXVECTOR3(pos.x + fRandomPos_X,pos.y,pos.z))	// 位置
-#define SIZE			(D3DXVECTOR3(30.0f,30.0f,0.0f))					// サイズ
+#define SIZE			(D3DXVECTOR3(10.0f,10.0f,0.0f))					// サイズ
 #define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))					// 向き
 #define COLOR			(D3DXCOLOR(1.0f,0.3f,0.0f,1.0f))				// 色
 
