@@ -45,10 +45,10 @@
 #define INITIAL_MOVE_SPEED (0.0f)								//移動速度の初期値							
 #define INITIAL_JUMP_POWER (0.0f)								//ジャンプ力の初期値
 #define INITIAL_GRAVITY (0.0f)									//重力の初期値
-#define STANEFFECT_SIZE	(D3DXVECTOR3(30.0f,30.0f,0.0f))			// スタンエフェクトサイズ
-#define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			// スタンエフェクト向き
-#define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		// スタンエフェクトカラー
-#define STANEFFECT_LENGTH	(50.0f)								// スタンエフェクト距離
+#define STANEFFECT_SIZE	(D3DXVECTOR3(30.0f,30.0f,0.0f))			//スタンエフェクトサイズ
+#define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			//スタンエフェクト向き
+#define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//スタンエフェクトカラー
+#define STANEFFECT_LENGTH	(50.0f)								//スタンエフェクト距離
 
 //*****************************************************************************
 // 静的メンバ変数宣言
@@ -63,27 +63,27 @@ DWORD CPlayer::m_nNumMat[PARTS_MAX] = {};
 //=============================================================================
 CPlayer::CPlayer()
 {
-	m_Size = INITIAL_SIZE;											//サイズ
-	m_Move = INITIAL_MOVE;											//移動量
-	m_ContinuePosition = INITIAL_POSITION;							//コンティニューする位置
-	m_nMeat = MINIMUM_MEAT;											//肉の所持数
-	m_nMaxMeat = MINIMUM_MEAT;										//肉の最大数
-	m_nDiamond = MINIMUM_DIAMOND;									//ダイアモンドの所持数
-	m_nStunTime = MINIMUM_STAN_TIME;								//スタン時間
-	m_nStunTimeCount = MINIMUM_STAN_TIME;							//スタン時間のカウント
-	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;							//移動速度
-	m_fSlowSpeed = INITIAL_MOVE_SPEED;								//スロウ速度
-	m_fLeftRightSpeed = INITIAL_MOVE_SPEED;							//左右移動速度
-	m_fJumpPower = INITIAL_JUMP_POWER;								//ジャンプ力
-	m_fGravity = INITIAL_GRAVITY;									//重力
-	m_bHit = false;													//ヒットしたか
-	m_bJump = false;												//ジャンプしたかどうか
-	m_bContinue = false;											//コンティニューするかどうか
-	m_bSlowRun = false;												//スロウにするか
-	m_bStop = false;												//停止するか
-	m_bContinuePositionSave = false;								//コンティニューする位置を保存するか
-	m_State = STATE_NONE;											//状態
-	m_Input = INPUT_NONE;											//入力情報
+	m_Size = INITIAL_SIZE;						//サイズ
+	m_Move = INITIAL_MOVE;						//移動量
+	m_ContinuePosition = INITIAL_POSITION;		//コンティニューする位置
+	m_nMeat = MINIMUM_MEAT;						//肉の所持数
+	m_nMaxMeat = MINIMUM_MEAT;					//肉の最大数
+	m_nDiamond = MINIMUM_DIAMOND;				//ダイアモンドの所持数
+	m_nStunTime = MINIMUM_STAN_TIME;			//スタン時間
+	m_nStunTimeCount = MINIMUM_STAN_TIME;		//スタン時間のカウント
+	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;		//移動速度
+	m_fSlowSpeed = INITIAL_MOVE_SPEED;			//スロウ速度
+	m_fLeftRightSpeed = INITIAL_MOVE_SPEED;		//左右移動速度
+	m_fJumpPower = INITIAL_JUMP_POWER;			//ジャンプ力
+	m_fGravity = INITIAL_GRAVITY;				//重力
+	m_bHit = false;								//ヒットしたか
+	m_bJump = false;							//ジャンプしたかどうか
+	m_bContinue = false;						//コンティニューするかどうか
+	m_bSlowRun = false;							//スロウにするか
+	m_bStop = false;							//停止するか
+	m_bContinuePositionSave = false;			//コンティニューする位置を保存するか
+	m_State = STATE_NONE;						//状態
+	m_Input = INPUT_NONE;						//入力情報
 }
 
 //=============================================================================
@@ -188,7 +188,6 @@ void CPlayer::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-
 	//もし生きていたら
 	if (m_State == STATE_LIVE)
 	{
@@ -219,6 +218,8 @@ void CPlayer::Update()
 			Move();
 		}
 	}
+	//移動可能範囲処理関数
+	MovableRange();
 	//重力処理関数呼び出し
 	Gravity();
 	//もしコンティニューしたら
@@ -471,9 +472,32 @@ void CPlayer::Continue(void)
 	m_nMeat = m_nMaxMeat;
 	//チェックポイントに戻す
 	Position = m_ContinuePosition;
+	//位置を設定する
 	SetPos(Position);
 	//生存状態にする
 	m_State = STATE_LIVE;
+}
+
+//=============================================================================
+// 移動可能範囲処理関数
+//=============================================================================
+void CPlayer::MovableRange(void)
+{
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPos();
+	//もしプレイヤーが左画面外に行ったら
+	if (Position.x + COLLISION_SIZE_PLAYER.x / 2 > -230)
+	{
+		//位置が画面外に移動しないように制御する
+		Position.x = -COLLISION_SIZE_PLAYER.x / 2 - 230;
+	}
+	//もしプレイヤーが右画面外に行ったら
+	if (Position.x + COLLISION_SIZE_PLAYER.x / 2 < -780)
+	{
+		//位置が画面外に移動しないように制御する
+		Position.x = -COLLISION_SIZE_PLAYER.x / 2 - 780;
+	}
+	SetPos(Position);
 }
 
 //=============================================================================
@@ -533,10 +557,10 @@ void CPlayer::DataLoad(void)
 							{
 								//位置情報の読み込み
 								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
+								//コンティニューする位置を設定する
+								m_ContinuePosition = Position;
 								//位置を設定する
 								SetPos(Position);
-								//コンティニューする位置を保存する
-								m_ContinuePosition = GetPos();
 							}
 							//現在のテキストがSIZEだったら
 							if (strcmp(aCurrentText, "SIZE") == 0)

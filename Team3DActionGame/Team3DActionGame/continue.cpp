@@ -79,8 +79,8 @@ HRESULT CContinue::Init(void)
 	//もし敵のポインタがNULLじゃない場合
 	if (pEnemy != NULL)
 	{
-		//敵をコンティニュー状態にする
-		pEnemy->SetbContinue(true);
+		//敵を停止させる
+		pEnemy->SetbStop(true);
 	}
 	//全生成処理関数呼び出し
 	CreateAll();

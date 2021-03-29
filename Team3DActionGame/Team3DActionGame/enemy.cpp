@@ -48,6 +48,7 @@ CEnemy::CEnemy()
 {
 	m_Size = INITIAL_SIZE;							//サイズ
 	m_Move = INITIAL_MOVE;							//移動量
+	m_ContinuePosition = INITIAL_POSITION;			//コンティニューするポジション
 	m_nMeatEatTime = MINIMUM_TIME;					//肉を食べる時間
 	m_nMeatEatTimeCount = MINIMUM_TIME;				//肉を食べる時間のカウント
 	m_nAttackCoolTime = MINIMUM_TIME;				//攻撃のクールタイム
@@ -55,6 +56,7 @@ CEnemy::CEnemy()
 	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;			//オートランの速度
 	m_bEat = false;									//食事をしているか
 	m_bAttack = false;								//攻撃をしたか
+	m_bStop = false;								//停止するか
 	m_bContinue = false;							//コンティニューするか
 }
 
@@ -201,12 +203,19 @@ void CEnemy::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-	//もしコンティニューしていない場合
-	if (m_bContinue == false)
+
+	if (m_bStop == false)
 	{
 		//オートラン処理関数呼び出し
 		AutoRun();
 	}
+	//もしコンティニューしたら
+	if (m_bContinue == true)
+	{
+		//コンティニュー処理関数呼び出し
+		Continue();
+	}
+
 	//もし攻撃をしていない場合
 	if (m_bAttack == false)
 	{
@@ -238,17 +247,24 @@ void CEnemy::AutoRun(void)
 {
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
+	//もし食事中だったら
 	if (m_bEat == true)
 	{
+		//もしカウントが食事時間以下の場合
 		if (m_nMeatEatTimeCount <= m_nMeatEatTime)
 		{
+			//移動量を0にする
 			m_Move = INITIAL_MOVE;
+			//食事カウントを加算する
 			m_nMeatEatTimeCount++;
 		}
 		else
 		{
+			//食事をやめる
 			m_bEat = false;
-			m_nMeatEatTimeCount = 0;
+			//食事カウントを0にする
+			m_nMeatEatTimeCount = MINIMUM_TIME;
+			//移動させる
 			m_Move.z = m_fAutoRunSpeed;
 		}
 	}
@@ -281,6 +297,23 @@ void CEnemy::Death(void)
 	//終了処理関数呼び出し
 	Uninit();
 	return;
+}
+
+//=============================================================================
+// コンティニュー処理関数
+//=============================================================================
+void CEnemy::Continue(void)
+{
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPos();
+	//コンティニューする位置に設定する
+	Position = m_ContinuePosition;
+	//位置を設定する
+	SetPos(Position);
+	//コンティニューをやめる
+	m_bContinue = false;
+	//停止をやめる
+	m_bStop = false;
 }
 
 //=============================================================================
@@ -341,6 +374,8 @@ void CEnemy::DataLoad(void)
 						{
 							//位置情報の読み込み
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
+							//コンティニューする位置を設定する
+							m_ContinuePosition = Position;
 							//位置を設定する
 							SetPos(Position);
 						}

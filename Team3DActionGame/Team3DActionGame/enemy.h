@@ -71,11 +71,13 @@ public:
 	void Update(void);
 	void Draw(void);
 	void SetbEat(bool bEat) { m_bEat = bEat; }
+	void SetbStop(bool bStop) { m_bStop = bStop; }
 	void SetbContinue(bool bContinue) { m_bContinue = bContinue; }
 private:
 	void AutoRun(void);
 	void Attack(void);
 	void Death(void);
+	void Continue(void);
 	void DataLoad(void);
 	static LPDIRECT3DTEXTURE9 m_apTexture[PARTS_MAX];			// テクスチャへのポインタ
 	static LPD3DXMESH m_pMesh[PARTS_MAX];
@@ -83,6 +85,7 @@ private:
 	static DWORD m_nNumMat[PARTS_MAX];
 	D3DXVECTOR3 m_Size;										//サイズ
 	D3DXVECTOR3 m_Move;										//移動量
+	D3DXVECTOR3 m_ContinuePosition;							//コンティニューするポジション
 	int m_nMeatEatTime;										//肉を食べる時間
 	int m_nMeatEatTimeCount;								//肉を食べる時間のカウント
 	int m_nAttackCoolTime;									//攻撃のクールタイム
@@ -90,6 +93,7 @@ private:
 	float m_fAutoRunSpeed;									//オートランの速度
 	bool m_bEat;											//食事をしてるかどうか
 	bool m_bAttack;											//攻撃をしたか
+	bool m_bStop;											//停止するか
 	bool m_bContinue;										//コンティニューするか
 };
 #endif

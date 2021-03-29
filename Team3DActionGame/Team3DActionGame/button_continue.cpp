@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "button_continue.h"
 #include "player.h"
+#include "enemy.h"
 #include "continue.h"
 
 //*****************************************************************************
@@ -154,6 +155,8 @@ void CContinueButton::Press(void)
 	CContinue * pContinue = CGameMode::GetContinue();
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//敵の取得
+	CEnemy * pEnemy = CGameMode::GetEnemy();
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
 	//もしサウンドのポインタがNULLじゃない場合
@@ -167,6 +170,12 @@ void CContinueButton::Press(void)
 	{
 		//プレイヤーのコンティニューをtrueにする
 		pPlayer->SetbContinue(true);
+	}
+	//もし敵のポインタがNULLじゃない場合
+	if (pEnemy != NULL)
+	{
+		//敵のコンティニューをtrueにする
+		pEnemy->SetbContinue(true);
 	}
 	pContinue->Uninit();
 }

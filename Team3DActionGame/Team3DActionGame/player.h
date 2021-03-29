@@ -97,6 +97,7 @@ private:
 	void Gravity(void);
 	void Death(void);
 	void Continue(void);
+	void MovableRange(void);
 	void DataLoad(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;
 	static LPD3DXMESH m_pMesh[PARTS_MAX];
