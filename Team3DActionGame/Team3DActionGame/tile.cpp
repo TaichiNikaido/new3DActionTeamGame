@@ -109,7 +109,7 @@ void CTile::Update(void)
 				}
 			}
 			break;
-		case TILE_HOLE:
+		case TILE_NEEDLE:
 			// ŒŠ‚É—Ž‚¿‚é
 			break;
 		case TILE_CHECK_POINT:
@@ -152,7 +152,7 @@ void CTile::Update(void)
     {
         pVtx[nCount].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-		if (m_type != TILE_HOLE)
+		if (m_type != TILE_NEEDLE)
 		{
 			pVtx[nCount].col = m_col;
 		}
@@ -255,7 +255,7 @@ HRESULT CTile::Load(void)
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/grass.png", &m_apTexture[TILE_WOOD_GRASS]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/mud.png", &m_apTexture[TILE_MUD]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_DIA_DIRT]);
-	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/.png", &m_apTexture[TILE_HOLE]);
+	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/.png", &m_apTexture[TILE_NEEDLE]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/mud.png", &m_apTexture[TILE_DIA_MUD]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_CHECK_POINT]);
 	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dirt.png", &m_apTexture[TILE_GOAL]);

@@ -163,6 +163,7 @@
     <ClCompile Include="continue_button_manager.cpp" />
     <ClCompile Include="continue_logo.cpp" />
     <ClCompile Include="meat.cpp" />
+    <ClCompile Include="needle.cpp" />
     <ClCompile Include="ui_daiya.cpp" />
     <ClCompile Include="dia.cpp" />
     <ClCompile Include="dia_particle.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="continue_button_manager.h" />
     <ClInclude Include="continue_logo.h" />
     <ClInclude Include="meat.h" />
+    <ClInclude Include="needle.h" />
     <ClInclude Include="ui_daiya.h" />
     <ClInclude Include="dia.h" />
     <ClInclude Include="dia_particle.h" />

@@ -41,6 +41,7 @@
 #include "tile.h"
 #include "dia.h"
 #include "meat.h"
+#include "needle.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -260,6 +261,7 @@ void CManager::LoadAll(void)
 	CTile::Load();
 	CDia::Load();
 	CMeat::Load();
+	CNeedle::Load();
 }
 
 //=============================================================================
@@ -286,6 +288,7 @@ void CManager::UnloadAll(void)
 	CTile::Unload();
 	CDia::Unload();
 	CMeat::Unload();
+	CNeedle::Unload();
 }
 
 //=============================================================================

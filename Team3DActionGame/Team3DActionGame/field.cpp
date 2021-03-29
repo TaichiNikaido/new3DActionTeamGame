@@ -17,6 +17,7 @@
 #include "tree.h"
 #include "wood.h"
 #include "dia.h"
+#include "needle.h"
 
 //========================================
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -249,10 +250,12 @@ void CField::SetField(int nWidth, int nDepth)
 				CDia::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 50.0f, nCountHeight * TILE_SIZE));
 				break;
 
-			case CTile::TILE_HOLE:
+			case CTile::TILE_NEEDLE:
 				m_apTile[nCountHeight][nCountWidth] = new CTile;
-				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_HOLE);
+				m_apTile[nCountHeight][nCountWidth]->Init(CTile::TILE_DIRT);
 				m_apTile[nCountHeight][nCountWidth]->SetPos(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
+
+				CNeedle::Create(D3DXVECTOR3(-nCountWidth * TILE_SIZE, 0.0f, nCountHeight * TILE_SIZE));
 				break;
 
 			case CTile::TILE_DIA_MUD:
