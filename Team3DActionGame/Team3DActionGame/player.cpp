@@ -217,9 +217,6 @@ void CPlayer::Update()
 			Input();
 			//移動処理関数呼び出し
 			Move();
-
-				////オートラン処理関数呼び出し
-				//AutoRun();
 		}
 	}
 	//重力処理関数呼び出し
@@ -538,6 +535,8 @@ void CPlayer::DataLoad(void)
 								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
 								//位置を設定する
 								SetPos(Position);
+								//コンティニューする位置を保存する
+								m_ContinuePosition = GetPos();
 							}
 							//現在のテキストがSIZEだったら
 							if (strcmp(aCurrentText, "SIZE") == 0)

@@ -19,6 +19,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene3d.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -31,6 +32,7 @@
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))										//移動量の初期値
 #define MINIMUM_TIME (0)																//時間の初期値
 #define INITIAL_MOVE_SPEED (0.0f)														//移動速度の初期値
+
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -53,6 +55,7 @@ CEnemy::CEnemy()
 	m_fAutoRunSpeed = INITIAL_MOVE_SPEED;			//オートランの速度
 	m_bEat = false;									//食事をしているか
 	m_bAttack = false;								//攻撃をしたか
+	m_bContinue = false;							//コンティニューするか
 }
 
 //=============================================================================
@@ -86,6 +89,38 @@ HRESULT CEnemy::Load(void)
 	//LoadTexture();
 	D3DXCreateTextureFromFile(pDevice, TEXTURE_PASS, &m_apTexture[TEX_TYPE_1]);
 
+	return S_OK;
+}
+
+//=============================================================================
+// ロードテクスチャ
+//=============================================================================
+HRESULT CEnemy::LoadTexture(void)
+{
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+
+	// テクスチャ分回す
+	for (int nCount = INIT_INT; nCount < PARTS_MAX; nCount++)
+	{
+		// マテリアル情報を取り出す
+		D3DXMATERIAL* pMat = (D3DXMATERIAL*)m_pBuffMat[nCount]->GetBufferPointer();
+		for (int nCntMat = INIT_INT; nCntMat < (signed)m_nNumMat[nCount]; nCntMat++)
+		{
+			// 使用しているテクスチャがあれば読み込む
+			if (pMat[nCntMat].pTextureFilename != NULL)
+			{
+				// テクスチャ読み込み
+				if (FAILED(D3DXCreateTextureFromFile(
+					pDevice,
+					pMat[nCntMat].pTextureFilename,
+					&m_apTexture[nCount])))
+				{
+					return E_FAIL;
+				}
+			}
+		}
+	}
 	return S_OK;
 }
 
@@ -166,8 +201,12 @@ void CEnemy::Update()
 {
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-	//オートラン処理関数呼び出し
-	AutoRun();
+	//もしコンティニューしていない場合
+	if (m_bContinue == false)
+	{
+		//オートラン処理関数呼び出し
+		AutoRun();
+	}
 	//もし攻撃をしていない場合
 	if (m_bAttack == false)
 	{
@@ -191,37 +230,6 @@ void CEnemy::Draw()
 	//キャラクターの描画処理関数呼び出し
 	CCharacter::Draw();
 }
-//=============================================================================
-// ロードテクスチャ
-//=============================================================================
-HRESULT CEnemy::LoadTexture(void)
-{
-	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-	// テクスチャ分回す
-	for (int nCount = INIT_INT; nCount < PARTS_MAX; nCount++)
-	{
-		// マテリアル情報を取り出す
-		D3DXMATERIAL* pMat = (D3DXMATERIAL*)m_pBuffMat[nCount]->GetBufferPointer();
-		for (int nCntMat = INIT_INT; nCntMat < (signed)m_nNumMat[nCount]; nCntMat++)
-		{
-			// 使用しているテクスチャがあれば読み込む
-			if (pMat[nCntMat].pTextureFilename != NULL)
-			{
-				// テクスチャ読み込み
-				if (FAILED(D3DXCreateTextureFromFile(
-					pDevice,
-					pMat[nCntMat].pTextureFilename,
-					&m_apTexture[nCount])))
-				{
-					return E_FAIL;
-				}
-			}
-		}
-	}
-	return S_OK;
-}
 
 //=============================================================================
 // オートラン処理関数
@@ -230,8 +238,20 @@ void CEnemy::AutoRun(void)
 {
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPos();
-	//移動させる
-	m_Move.z = m_fAutoRunSpeed;
+	if (m_bEat == true)
+	{
+		if (m_nMeatEatTimeCount <= m_nMeatEatTime)
+		{
+			m_Move = INITIAL_MOVE;
+			m_nMeatEatTimeCount++;
+		}
+		else
+		{
+			m_bEat = false;
+			m_nMeatEatTimeCount = 0;
+			m_Move.z = m_fAutoRunSpeed;
+		}
+	}
 	//位置更新
 	Position += m_Move;
 	//位置を設定する
@@ -248,27 +268,9 @@ void CEnemy::Attack(void)
 	//クールタイムを0にする
 	m_nAttackCoolTimeCount = MINIMUM_TIME;
 	//プレイヤーに攻撃をする
-	//
+
 	//攻撃をやめる
 	m_bAttack = false;
-}
-
-//=============================================================================
-// 食事処理関数
-//=============================================================================
-void CEnemy::Eat(void)
-{
-	//もし食事中だったら
-	if (m_nMeatEatTimeCount <= m_nMeatEatTime)
-	{
-		//移動量を0にする
-		m_Move = INITIAL_MOVE;
-	}
-	else
-	{
-		//移動させる
-		m_Move.z = m_fAutoRunSpeed;
-	}
 }
 
 //=============================================================================

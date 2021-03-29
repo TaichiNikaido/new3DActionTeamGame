@@ -70,7 +70,8 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void Eat(void);
+	void SetbEat(bool bEat) { m_bEat = bEat; }
+	void SetbContinue(bool bContinue) { m_bContinue = bContinue; }
 private:
 	void AutoRun(void);
 	void Attack(void);
@@ -89,5 +90,6 @@ private:
 	float m_fAutoRunSpeed;									//オートランの速度
 	bool m_bEat;											//食事をしてるかどうか
 	bool m_bAttack;											//攻撃をしたか
+	bool m_bContinue;										//コンティニューするか
 };
 #endif

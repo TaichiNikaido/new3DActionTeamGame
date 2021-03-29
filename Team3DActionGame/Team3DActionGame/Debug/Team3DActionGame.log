@@ -1,26 +1,4 @@
-<<<<<<< HEAD
-﻿  player.cpp
-  コードを生成中...
-  スキップ中... (関連する変更は検出されませんでした)
-  wood.cpp
-  ui_meat.cpp
-  ui_daiya.cpp
-  ui.cpp
-  tile.cpp
-  stan_effect.cpp
-  mode_game.cpp
-  manager.cpp
-  dia.cpp
-  continue_logo.cpp
-  continue_button_manager.cpp
-  continue.cpp
-  camera.cpp
-  button_continue.cpp
-  bg_continue.cpp
+﻿  continue.cpp
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
   Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
   Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
-=======
-﻿  number.cpp
-  Team3DActionGame.vcxproj -> C:\Users\student\Desktop\仮２\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
-  Team3DActionGame.vcxproj -> C:\Users\student\Desktop\仮２\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
->>>>>>> 1aca7b2c3c1ac2ee836b82fd658fa15a26431786

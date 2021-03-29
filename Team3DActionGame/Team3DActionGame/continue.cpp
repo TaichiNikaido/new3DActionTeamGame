@@ -19,6 +19,7 @@
 #include "continue_button_manager.h"
 #include "bg_continue.h"
 #include "player.h"
+#include "enemy.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -73,6 +74,14 @@ CContinue * CContinue::Create()
 //=============================================================================
 HRESULT CContinue::Init(void)
 {
+	//敵の取得
+	CEnemy *  pEnemy = CGameMode::GetEnemy();
+	//もし敵のポインタがNULLじゃない場合
+	if (pEnemy != NULL)
+	{
+		//敵をコンティニュー状態にする
+		pEnemy->SetbContinue(true);
+	}
 	//全生成処理関数呼び出し
 	CreateAll();
 	return S_OK;

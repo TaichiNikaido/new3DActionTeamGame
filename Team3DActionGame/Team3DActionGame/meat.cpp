@@ -80,7 +80,7 @@ void CMeat::Update(void)
 		EnemyPosition.z >= pos.z - COLLISION_SIZE_MEAT.z / 2 &&
 		EnemyPosition.z <= pos.z + COLLISION_SIZE_MEAT.z / 2)
 	{
-		pEnemy->Eat();
+		pEnemy->SetbEat(true);
 		Uninit();
 	}
 	else
@@ -115,8 +115,8 @@ HRESULT CMeat::Load(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
-	D3DXLoadMeshFromX(LPCSTR("./data/MODEL/dia.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh);
-	D3DXCreateTextureFromFile(pDevice, "./data/TEXTURE/dia.jpg", &m_pTexture);
+	D3DXLoadMeshFromX(LPCSTR("Data/model/meet.x"), D3DXMESH_SYSTEMMEM, pDevice, NULL, &m_pBuffMat, NULL, &m_nNumMat, &m_pMesh);
+	D3DXCreateTextureFromFile(pDevice, "Data/Texture/meet_texture.jpg", &m_pTexture);
 
 	return S_OK;
 }
