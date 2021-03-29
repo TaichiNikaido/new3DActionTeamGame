@@ -20,9 +20,9 @@
 //================================================
 #define MAX_SCORE		(2)			// スコアの最大桁数
 #define ADD_SCORE		(1000)		// スコアの増える値
-#define SCORE_POS_X		(1000.0f)	// スコアのX座標
-#define SCORE_POS_Y		(700.0f)	// スコアのY座標
-#define SCORE_SIZE		(50.0f)		// スコアサイズ
+#define SCORE_POS_X		(900.0f)	// スコアのX座標
+#define SCORE_POS_Y		(340.0f)	// スコアのY座標
+#define SCORE_SIZE		(80.0f)		// スコアサイズ
 
 //================================================
 //クラス宣言
