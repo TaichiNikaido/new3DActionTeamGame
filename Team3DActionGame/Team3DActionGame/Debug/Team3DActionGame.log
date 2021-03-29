@@ -1,3 +1,4 @@
-﻿  enemy.cpp
+﻿  player.cpp
+c:\users\gsp015\desktop\新しいフォルダー (11)\new3dactionteamgame\team3dactiongame\team3dactiongame\player.cpp(322): warning C4101: 'js': ローカル変数は 1 度も使われていません。
   Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (11)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
   Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (11)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
