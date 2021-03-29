@@ -42,7 +42,12 @@
 #define WARNING_MARK_POS	(D3DXVECTOR3(SCREEN_WIDTH / 2,150.0f,0.0f))					// 位置
 #define WARNING_MARK_SIZE	(D3DXVECTOR3(200.0f,200.0f,0.0f))							// サイズ
 #define ATTACK_COUNT		(120)														// 攻撃カウント
-
+#define ATTACK1_RANGE_MIN	(-400)														// 攻撃1の最小値
+#define ATTACK1_RANGE_MAX	(-580)														// 攻撃1の最大値
+#define ATTACK2_RANGE_MIN	(-580)														// 攻撃2の最小値
+#define ATTACK2_RANGE_MAX	(-780)														// 攻撃2の最大値
+#define ATTACK3_RANGE_MIN	(-780)														// 攻撃3の最小値
+#define ATTACK3_RANGE_MAX	(-980)														// 攻撃3の最大値
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -219,6 +224,9 @@ void CEnemy::Update()
 	{
 		//オートラン処理関数呼び出し
 		AutoRun();
+
+		// 踏む処理
+		Step();
 	}
 	//もしコンティニューしたら
 	if (m_bContinue == true)
@@ -226,8 +234,6 @@ void CEnemy::Update()
 		//コンティニュー処理関数呼び出し
 		Continue();
 
-		// 踏む処理
-		Step();
 	}
 	//もし攻撃をしていない場合
 	if (m_bAttack == false)
@@ -318,7 +324,7 @@ void CEnemy::Attack(void)
 		CByte_Effect::ByteEffect_Create(BYTE_POS_1, BYTE_SIZE);
 
 		// プレイヤーの位置が範囲内の場合
-		if (PlayerPos.x <= -400 && PlayerPos.x > -580)
+		if (PlayerPos.x <= ATTACK1_RANGE_MIN && PlayerPos.x > ATTACK1_RANGE_MAX)
 		{
 			// ヒット
 			pPlayer->Hit();
@@ -333,7 +339,7 @@ void CEnemy::Attack(void)
 		CByte_Effect::ByteEffect_Create(BYTE_POS_2, BYTE_SIZE);
 
 		// プレイヤーの位置が範囲内の場合
-		if (PlayerPos.x <= -580 && PlayerPos.x > -780)
+		if (PlayerPos.x <= ATTACK2_RANGE_MIN && PlayerPos.x > ATTACK2_RANGE_MAX)
 		{
 			// ヒット
 			pPlayer->Hit();
@@ -349,7 +355,7 @@ void CEnemy::Attack(void)
 		CByte_Effect::ByteEffect_Create(BYTE_POS_3, BYTE_SIZE);
 
 		// プレイヤーの位置が範囲内の場合
-		if (PlayerPos.x <= -780 && PlayerPos.x > -980)
+		if (PlayerPos.x <= ATTACK3_RANGE_MIN && PlayerPos.x > ATTACK3_RANGE_MAX)
 		{
 			// ヒット
 			pPlayer->Hit();
@@ -368,17 +374,21 @@ void CEnemy::Warning_Create(void)
 	CPlayer *pPlayer = CGameMode::GetPlayer();
 	// プレイヤー位置
 	D3DXVECTOR3 PlayerPos = pPlayer->GetPos();
-	if (PlayerPos.x <= -400 && PlayerPos.x > -580)
+
+	// 範囲内の場合
+	if (PlayerPos.x <= ATTACK1_RANGE_MIN && PlayerPos.x > ATTACK1_RANGE_MAX)
 	{
 		// 攻撃タイプ
 		Attack_Type = ATTACK_TYPE_1;
 	}
-	if (PlayerPos.x <= -580 && PlayerPos.x > -780)
+	// 範囲内の場合
+	if (PlayerPos.x <= ATTACK2_RANGE_MIN && PlayerPos.x > ATTACK2_RANGE_MAX)
 	{
 		// 攻撃タイプ
 		Attack_Type = ATTACK_TYPE_2;
 	}
-	if (PlayerPos.x <= -780 && PlayerPos.x > -980)
+	// 範囲内の場合
+	if (PlayerPos.x <= ATTACK3_RANGE_MIN && PlayerPos.x > ATTACK1_RANGE_MAX)
 	{
 		// 攻撃タイプ
 		Attack_Type = ATTACK_TYPE_3;
@@ -403,7 +413,7 @@ void CEnemy::Step(void)
 	if (PlayerPos.z <= pos.z)
 	{
 		// ヒット
-		pPlayer->Hit();
+		pPlayer->Death();
 	}
 }
 //=============================================================================
