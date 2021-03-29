@@ -11,6 +11,8 @@
 #include "needle.h"
 #include "manager.h"
 #include "renderer.h"
+#include "player.h"
+#include "mode_game.h"
 
 //========================
 // 静的メンバ変数宣言
@@ -66,7 +68,23 @@ void CNeedle::Uninit(void)
 //=============================================================================
 void CNeedle::Update(void)
 {
-	CModelHimiya::Update();
+	// プレイヤーとの当たり判定処理
+	CPlayer *pPlayer = CGameMode::GetPlayer();
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+	D3DXVECTOR3 pos = GetPos();
+
+	if (playerPos.x >= pos.x - COLLISION_SIZE_NEEDLE.x / 2 &&
+		playerPos.x <= pos.x + COLLISION_SIZE_NEEDLE.x / 2 &&
+		playerPos.z >= pos.z - COLLISION_SIZE_NEEDLE.z / 2 &&
+		playerPos.z <= pos.z + COLLISION_SIZE_NEEDLE.z / 2)
+	{
+		// プレイヤー死亡
+		Uninit();
+	}
+	else
+	{
+		CModelHimiya::Update();
+	}
 }
 
 //=============================================================================
