@@ -34,19 +34,19 @@ HRESULT CNumber::Load(void)
 	LPDIRECT3DDEVICE9 pDevice;
 	pDevice = CManager::GetRenderer()->GetDevice();
 
-	//テクスチャの読み込み
+	//ダイヤのナンバーテクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"Data/Texture/Number.png", //ファイルの読み込み
+		"Data/Texture/game_number.png", //ファイルの読み込み
 		&m_apTexture[NUMBERTYPE_DAIYA]);
 
-	//テクスチャの読み込み
+	//肉のナンバーテクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"Data/Texture/num.png", //ファイルの読み込み
+		"Data/Texture/game_number.png", //ファイルの読み込み
 		&m_apTexture[NUMBERTYPE_MEAT]);
 
-	//テクスチャの読み込み
+	//リザルトナンバーテクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
-		"Data/Texture/num.png", //ファイルの読み込み
+		"Data/Texture/result_number.png", //ファイルの読み込み
 		&m_apTexture[NUMBERTYPE_SCORE]);
 
 	return S_OK;
