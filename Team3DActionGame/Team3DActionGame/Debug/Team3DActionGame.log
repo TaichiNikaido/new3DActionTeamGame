@@ -1,3 +1,4 @@
-﻿  enemy.cpp
-enemy.obj : error LNK2019: 未解決の外部シンボル "public: void __thiscall CPlayer::Death(void)" (?Death@CPlayer@@QAEXXZ) が関数 "private: void __thiscall CEnemy::Step(void)" (?Step@CEnemy@@AAEXXZ) で参照されました。
-C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe : fatal error LNK1120: 1 件の未解決の外部参照
+﻿  スキップ中... (関連する変更は検出されませんでした)
+  bg_continue.cpp
+  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
+  Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
