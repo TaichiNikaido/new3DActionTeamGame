@@ -80,6 +80,7 @@ public:
 	void Update(void);
 	void Draw(void);
 	void Hit(void);
+	void Death(void);
 	void AddDiamond(int nValue) { m_nDiamond += nValue; }
 	void SetbContinue(bool bContinue) { m_bContinue = bContinue; }
 	void SetbSlow(bool bSlowRun) { m_bSlowRun = bSlowRun; }
@@ -95,7 +96,6 @@ private:
 	void Input(void);
 	void Move(void);
 	void Gravity(void);
-	void Death(void);
 	void Continue(void);
 	void MovableRange(void);
 	void DataLoad(void);

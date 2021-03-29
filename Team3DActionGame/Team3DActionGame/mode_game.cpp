@@ -161,11 +161,6 @@ void CGameMode::InitCreateAll(void)
 		m_pUi = CUi::Create(D3DXVECTOR3(MEAT_POS_X, MEAT_POS_Y, 0.0f),
 			D3DXVECTOR3(MEAT_SIZE, MEAT_SIZE, 0.0f),
 			CUi::UITYPE_MEAT);
-
-		// WARNINGUI
-		m_pUi = CUi::Create(D3DXVECTOR3(WARNING_POS_X, WARNING_POS_Y, 0.0f),
-			D3DXVECTOR3(WARNING_SIZE, WARNING_SIZE, 0.0f),
-			CUi::UITYPE_WARNING);
 	}
 	CMeatUI::Create();
 	CDaiyaUI::Create();
@@ -195,8 +190,6 @@ void CGameMode::InitCreateAll(void)
 		//ƒJƒƒ‰‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
 		m_pCamera->Init();
 	}
-	CDust_Particle::SandDust_Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	CByte_Effect::ByteEffect_Create(D3DXVECTOR3(0.0f,0.0f,0.0f),D3DXVECTOR3(300.0f,300.0f,0.0f));
 	CField::Create();
 	m_pTutorial = CTutorialBG::Create();
 }
