@@ -17,12 +17,12 @@
 #define RANDOM_ANGLE	(360)											// 角度ランダム
 #define MAX_PARTICLE	(20)											// パーティクルの最大数
 #define POS				(D3DXVECTOR3(pos.x,pos.y,pos.z))				// 位置
-#define SIZE			(D3DXVECTOR3(30.0f,30.0f,0.0f))					// サイズ
+#define SIZE			(D3DXVECTOR3(50.0f,50.0f,0.0f))					// サイズ
 #define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))					// 向き
 #define COLOR			(D3DXCOLOR(0.5f,1.0f,1.0f,1.0f))				// 色
 #define ADD_ROT_VALUE	(D3DXVECTOR3(0.0f,0.0f,D3DXToRadian(15.0f)))
 // 移動
-#define MOVE			(D3DXVECTOR3(cosf(D3DXToRadian(fAngle))*2.0f, sinf(D3DXToRadian(fAngle))*2.0f,0.0f))
+#define MOVE			(D3DXVECTOR3(cosf(D3DXToRadian(fAngle))*4.0f, sinf(D3DXToRadian(fAngle))*4.0f,0.0f))
 //******************************************************************************
 //	コンストラクタ
 //******************************************************************************

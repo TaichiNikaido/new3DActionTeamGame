@@ -49,9 +49,9 @@
 #define STANEFFECT_SIZE	(D3DXVECTOR3(30.0f,30.0f,0.0f))			//スタンエフェクトサイズ
 #define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			//スタンエフェクト向き
 #define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//スタンエフェクトカラー
-#define STANEFFECT_LENGTH	(50.0f)								//スタンエフェクト距離
+#define STANEFFECT_LENGTH	(80.0f)								//スタンエフェクト距離
 #define JUMP_Z_VALUE		(6.4f)
-#define STAN_POS		(D3DXVECTOR3(Position.x,Position.y + 80.0f,Position.z))
+#define STAN_POS		(D3DXVECTOR3(Position.x,Position.y + 160.0f,Position.z))
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -223,6 +223,10 @@ void CPlayer::Update()
 			//移動処理関数呼び出し
 			Move();
 		}
+		if (m_bJump == false && m_bHit == false)
+		{
+			pAnimation->SetAnimation(MOTION_DUSH);
+		}
 	}
 	//移動可能範囲処理関数
 	MovableRange();
@@ -350,13 +354,11 @@ void CPlayer::Move(void)
 			//もしスロウ状態じゃない場合
 			if (m_bSlowRun == false)
 			{
-				pAnimation->SetAnimation(MOTION_DUSH);
 				//オートランの速度にする
 				m_Move.z = m_fAutoRunSpeed;
 			}
 			else
 			{
-				pAnimation->SetAnimation(MOTION_DUSH);
 				//オートラン(スロウ)の速度にする
 				m_Move.z = m_fSlowSpeed;
 			}
