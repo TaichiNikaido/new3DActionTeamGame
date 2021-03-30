@@ -15,9 +15,9 @@ POS = -600.0 0.0 -500.0				# 位置
 SIZE = 1.0 1.0 1.0					# サイズ
 COLLISION_SIZE = 0.0 0.0 0.0		# 衝突判定用サイズ
 ROT = 0.0 180.0 0.0					# 回転
-MeatEatTime = 50					# 肉を食べる時間
+MeatEatTime = 200					# 肉を食べる時間
 AttackCoolTime = 600		# 攻撃のクールタイム
-AutoRunSpeed = 5.0					# オートランの速度
+AutoRunSpeed = 5.2					# オートランの速度
 
 END_PARAMETER_SET
 

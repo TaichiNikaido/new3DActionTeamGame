@@ -19,8 +19,8 @@
 #define MUT_2			(2)												// 2倍
 #define DEVEIDE			(2)												// 割る２
 #define MAX_PARTICLE	(10)											// パーティクルの最大数
-#define POS				(D3DXVECTOR3(pos.x + fRandomPos_X,pos.y,pos.z))	// 位置
-#define SIZE			(D3DXVECTOR3(10.0f,10.0f,0.0f))					// サイズ
+#define POS				(D3DXVECTOR3(pos.x + fRandomPos_X,pos.y + fRandomPos_Y,pos.z))	// 位置
+#define SIZE			(D3DXVECTOR3(20.0f,20.0f,0.0f))					// サイズ
 #define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))					// 向き
 #define COLOR			(D3DXCOLOR(1.0f,0.3f,0.0f,1.0f))				// 色
 
@@ -147,6 +147,9 @@ void CCircle_Particle::Effect_Create(D3DXVECTOR3 pos)
 
 		// X座標ランダム
 		float fRandomPos_X = float(rand() % RANDOM_POS * MUT_2 - RANDOM_POS);
+
+		// X座標ランダム
+		float fRandomPos_Y = float(rand() % RANDOM_POS * MUT_2 - RANDOM_POS);
 
 		// 生成
 		Create(POS, SIZE, COLOR, MOVE);

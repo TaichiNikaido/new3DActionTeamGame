@@ -13,7 +13,7 @@
 #include "renderer.h"
 #include "enemy.h"
 #include "mode_game.h"
-
+#include "player.h"
 //========================
 // 静的メンバ変数宣言
 //========================
@@ -72,6 +72,7 @@ void CMeat::Update(void)
 	// プレイヤーとの当たり判定処理
 	CEnemy *pEnemy = CGameMode::GetEnemy();
 	D3DXVECTOR3 EnemyPosition = pEnemy->GetPos();
+	CPlayer *pPlayer = CGameMode::GetPlayer();
 	D3DXVECTOR3 pos = GetPos();
 	D3DXVECTOR3 rot = GetRot();
 
@@ -89,6 +90,13 @@ void CMeat::Update(void)
 		rot.y += D3DXToRadian(1);
 		SetRot(rot);
 		CModelHimiya::Update();
+	}
+	// コンティニューした場合
+	if (pPlayer->GetState() == CPlayer::STATE_DEATH)
+	{
+		// 終了
+		Uninit();
+		return;
 	}
 }
 

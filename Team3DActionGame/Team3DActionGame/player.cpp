@@ -50,7 +50,8 @@
 #define STANEFFECT_ROT	(D3DXVECTOR3(0.0f,0.0f,0.0f))			//スタンエフェクト向き
 #define STANEFFECT_COL	(D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//スタンエフェクトカラー
 #define STANEFFECT_LENGTH	(50.0f)								//スタンエフェクト距離
-#define JUMP_Z_VALUE		(9.5f)
+#define JUMP_Z_VALUE		(6.4f)
+#define STAN_POS		(D3DXVECTOR3(Position.x,Position.y + 80.0f,Position.z))
 //*****************************************************************************
 // 静的メンバ変数宣言
 //*****************************************************************************
@@ -462,7 +463,7 @@ void CPlayer::Hit(void)
 	//ヒットさせる
 	m_bHit = true;
 	//スタンエフェクトの生成
-	CStan_Effect::StanEffect_Create(Position, STANEFFECT_SIZE, STANEFFECT_ROT, STANEFFECT_COL, STANEFFECT_LENGTH);
+	CStan_Effect::StanEffect_Create(STAN_POS, STANEFFECT_SIZE, STANEFFECT_ROT, STANEFFECT_COL, STANEFFECT_LENGTH);
 	//もし肉の所持数が0以下になったら
 	if (m_nLife <= MINIMUM_MEAT)
 	{

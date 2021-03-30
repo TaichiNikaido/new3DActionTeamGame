@@ -24,7 +24,7 @@
 #include "byte_effect.h"
 #include "ui.h"
 #include "animation.h"
-
+#include "dust_particle.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -37,10 +37,10 @@
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))										//移動量の初期値
 #define MINIMUM_TIME (0)																//時間の初期値
 #define INITIAL_MOVE_SPEED (0.0f)														//移動速度の初期値
-#define BYTE_POS_1	(D3DXVECTOR3(-400,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
-#define BYTE_POS_2	(D3DXVECTOR3(-600,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
-#define BYTE_POS_3	(D3DXVECTOR3(-800,100.0f,PlayerPos.z))								// 攻撃エフェクト位置
-#define BYTE_SIZE	(D3DXVECTOR3(300.0f,300.0f,0.0f))									// 攻撃エフェクトサイズ
+#define BYTE_POS_1	(D3DXVECTOR3(-400,200.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_POS_2	(D3DXVECTOR3(-600,200.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_POS_3	(D3DXVECTOR3(-800,200.0f,PlayerPos.z))								// 攻撃エフェクト位置
+#define BYTE_SIZE	(D3DXVECTOR3(300.0f,500.0f,0.0f))									// 攻撃エフェクトサイズ
 #define WARNING_MARK_POS	(D3DXVECTOR3(SCREEN_WIDTH / 2,150.0f,0.0f))					// 位置
 #define WARNING_MARK_SIZE	(D3DXVECTOR3(200.0f,200.0f,0.0f))							// サイズ
 #define ATTACL_MOTIONCOUNT	(95)														//アタックモーション
@@ -228,12 +228,12 @@ void CEnemy::Update()
 	CCharacter::Update();
 	//アニメーションの取得
 	CAnimation * pAnimation = GetAnimation();
-
+	D3DXVECTOR3 pos = GetPos();
 	if (m_bStop == false)
 	{
 		//オートラン処理関数呼び出し
 		AutoRun();
-
+		CDust_Particle::SandDust_Create(pos);
 		// 踏む処理
 		Step();
 	}

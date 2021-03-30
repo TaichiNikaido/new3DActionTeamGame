@@ -12,7 +12,7 @@
 //******************************************************************************
 //	マクロ定義
 //******************************************************************************
-#define MAX_LIFE		(30)											// ライフの最大値
+#define MAX_LIFE		(40)											// ライフの最大値
 #define MIN_LIFE		(0)												// ライフ最小値
 #define RANDOM_ANGLE	(360)											// 角度ランダム
 #define MAX_PARTICLE	(20)											// パーティクルの最大数
@@ -20,7 +20,7 @@
 #define SIZE			(D3DXVECTOR3(30.0f,30.0f,0.0f))					// サイズ
 #define ROT				(D3DXVECTOR3(0.0f,0.0f,0.0f))					// 向き
 #define COLOR			(D3DXCOLOR(0.5f,1.0f,1.0f,1.0f))				// 色
-
+#define ADD_ROT_VALUE	(D3DXVECTOR3(0.0f,0.0f,D3DXToRadian(15.0f)))
 // 移動
 #define MOVE			(D3DXVECTOR3(cosf(D3DXToRadian(fAngle))*2.0f, sinf(D3DXToRadian(fAngle))*2.0f,0.0f))
 //******************************************************************************
@@ -94,12 +94,18 @@ void CDia_Particle::Update(void)
 
 	// 位置座標取得
 	D3DXVECTOR3 pos = GetPosition();
-
+	D3DXVECTOR3 rot = GetRotation();
 	// 位置更新
 	pos += m_move;
 
+	// 向き加算
+	rot.z += ADD_ROT_VALUE.z;
+
 	// 位置座標設定
 	SetPosition(pos);
+
+	// 向き設定
+	SetRotation(rot);
 
 	// αが0.0f以下の場合
 	if (m_nLife <= MIN_LIFE)
@@ -120,8 +126,14 @@ void CDia_Particle::Draw(void)
 	// 加算合成の設定
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	// カリング処理を無効
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	// 描画
 	CParticle::Draw();
+
+	// カリング処理を有効
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	// 元に戻す
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
