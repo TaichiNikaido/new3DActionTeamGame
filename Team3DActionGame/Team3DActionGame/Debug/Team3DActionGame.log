@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-﻿  meat.cpp
-cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+﻿  camera.cpp
   Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
   Team3DActionGame.vcxproj -> C:\Users\gsp025\Desktop\就職活動\00_自分の作品\05_チーム制作\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
-=======
-﻿  player.cpp
-c:\users\gsp015\desktop\新しいフォルダー (11)\new3dactionteamgame\team3dactiongame\team3dactiongame\player.cpp(320): warning C4101: 'js': ローカル変数は 1 度も使われていません。
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (11)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.exe
-  Team3DActionGame.vcxproj -> C:\Users\gsp015\Desktop\新しいフォルダー (11)\new3DActionTeamGame\Team3DActionGame\Debug\Team3DActionGame.pdb (Full PDB)
->>>>>>> 010a7c049d9b31be65193aa6ea5413a288bf9620
