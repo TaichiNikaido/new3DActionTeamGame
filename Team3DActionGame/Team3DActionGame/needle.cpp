@@ -29,6 +29,7 @@ LPDIRECT3DTEXTURE9 CNeedle::m_pTexture = NULL;
 CNeedle::CNeedle()
 {
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
 }
 
 //=============================================================================
@@ -81,9 +82,11 @@ void CNeedle::Update(void)
 		playerPos.z >= pos.z - COLLISION_SIZE_NEEDLE.z / 2 &&
 		playerPos.z <= pos.z + COLLISION_SIZE_NEEDLE.z / 2)
 	{
-		// プレイヤー死亡
-		pPlayer->Death();
-		Uninit();
+		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
+		{
+			// プレイヤー死亡
+			pPlayer->Death();
+		}
 	}
 	else
 	{

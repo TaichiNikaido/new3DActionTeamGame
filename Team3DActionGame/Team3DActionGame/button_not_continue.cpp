@@ -15,6 +15,7 @@
 #include "renderer.h"
 #include "sound.h"
 #include "button_not_continue.h"
+#include "needle.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`

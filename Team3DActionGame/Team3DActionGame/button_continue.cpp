@@ -19,6 +19,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "continue.h"
+#include "needle.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
