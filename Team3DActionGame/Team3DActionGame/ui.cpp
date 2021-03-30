@@ -234,7 +234,7 @@ void CUi::MeatFlash(void)
 	// UIタイプが肉なら
 	if (m_type == UITYPE_MEAT)
 	{
-		if (m_nMeat == MEAT_FLASH)
+		if (m_nMeat <= MEAT_FLASH)
 		{
 			// 毎フレームごとにカウンターを増やす
 			m_nMeatColCounter++;
@@ -253,6 +253,12 @@ void CUi::MeatFlash(void)
 				// カウンターを初期値へ
 				m_nMeatColCounter = 0;
 			}
+		}
+		else
+		{
+			// gとbの色を付ける
+			col.g = 1.0f;
+			col.b = 1.0f;
 		}
 	}
 

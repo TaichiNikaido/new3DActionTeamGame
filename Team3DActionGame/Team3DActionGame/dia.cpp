@@ -14,7 +14,10 @@
 #include "player.h"
 #include "mode_game.h"
 #include "dia_particle.h"
-
+//=============================================================================
+// マクロ定義
+//=============================================================================
+#define EFFECT_POS (D3DXVECTOR3(pos.x,pos.y,pos.z + 20.0f))
 //========================
 // 静的メンバ変数宣言
 //========================
@@ -82,7 +85,7 @@ void CDia::Update(void)
 		playerPos.z <= pos.z + COLLISION_SIZE_DIA.z / 2 )
 	{
 		pPlayer->AddDiamond(1);
-		CDia_Particle::DiaEffect_Create(pos);
+		CDia_Particle::DiaEffect_Create(EFFECT_POS);
 		Uninit();
 	}
 	else

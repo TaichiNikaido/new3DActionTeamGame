@@ -124,7 +124,7 @@ void CTitleMode::Input(void)
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
 	//もしENTERかAボタンを押したとき
-	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
+	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL && pJoystick->GetJoystickTrigger(JS_A))
 	{
 		//ランキングに移動
 		CManager::StartFade(CManager::MODE_GAME);
